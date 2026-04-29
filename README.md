@@ -83,6 +83,11 @@ This indicates a **controlled trade-off between efficiency and performance**.
 
 > Even in simulation, boundary-aware selection shows a consistent trade-off between compute cost and output quality.
 ```text
+---
+
+## 📊 Preliminary Result (Simulation)
+
+![BIT-X4 Trade-off Curve](x4_runtime_proof/x4_curve.png)
 Create main README
 docs/
 x1_boundary_logic/
