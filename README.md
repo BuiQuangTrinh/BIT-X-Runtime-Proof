@@ -46,7 +46,42 @@ The execution layer: boundary-aware selective computation and input coherence ga
 ---
 
 ## Repository Map
+---
 
+## 📊 Preliminary Result (Simulation)
+
+![BIT-X4 Trade-off Curve](x4_runtime_proof/x4_curve.png)
+
+The trade-off curve shows:
+
+- Lower coverage → lower compute cost  
+- Slight accuracy reduction → improved efficiency  
+
+This suggests that boundary-aware selection can reduce unnecessary computation under controlled conditions.
+
+---
+
+## 🔍 Interpretation
+
+This is an early simulation result.
+
+- The system processes less data (reduced coverage)  
+- Energy usage decreases accordingly  
+- Accuracy degrades gradually, not catastrophically  
+
+This indicates a **controlled trade-off between efficiency and performance**.
+
+---
+
+## ⚠️ Status
+
+- Simulation-based result  
+- Not a physical energy measurement yet  
+- NVIDIA GPU validation is in progress  
+
+---
+
+> Even in simulation, boundary-aware selection shows a consistent trade-off between compute cost and output quality.
 ```text
 Create main README
 docs/
