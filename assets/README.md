@@ -1,13 +1,11 @@
-# Assets
+## Repository Map
 
-This folder stores visual materials used across BIT-X.
-
-## Contents
-
-- images
-- diagrams
-- charts
-- posters
-- figures
-
-These assets support documentation, GitHub READMEs, Substack posts, and X/Twitter threads.
+```text
+BIT-X-Runtime-Proof/
+├── README.md
+├── assets/
+├── docs/
+├── x1_boundary_logic/
+├── x2_compute_audit/
+├── x3_system_diagnosis/
+└── x4_runtime_proof/
