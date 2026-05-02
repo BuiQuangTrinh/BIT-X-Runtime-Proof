@@ -19,9 +19,17 @@ If the input is coherent enough, computation proceeds.
 If not, the system can skip, defer, compress, or route the input differently.
 
 ---
+## 🔄 Extensions
+
+- **BIT-X5 — Reflex Layer**  
+  Instant response mechanism based on boundary triggers.
+
+- **BIT-X6 — Temporal Boundary Layer**  
+  Adaptive timing control for dynamic systems.
 
 ## Planned Files
 
 ```text
+
 bit_x4_gate.py
 demo_runtime.py
