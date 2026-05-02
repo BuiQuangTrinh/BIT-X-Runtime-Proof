@@ -48,12 +48,13 @@ BIT-X5 enables:
 
 ---
 
-## 📽️ Demo
+### 📽️ Demo
 
 The video below demonstrates reflex-like behavior:
 
-- system reacts instantly to boundary-triggered signals  
-- without full computation pipeline  
+- the system detects critical boundary signals  
+- bypasses full computation pipeline  
+- triggers immediate response  
 
 👉 See: `x5_demo.mp4`
 
@@ -71,9 +72,7 @@ The video below demonstrates reflex-like behavior:
 
 > Intelligence is not only about thinking.  
 > It is also about knowing when not to think.
->## 📽️ Demo
 
-See the reflex behavior in:
 
 👉 `x5_demo.mp4`
 > 
