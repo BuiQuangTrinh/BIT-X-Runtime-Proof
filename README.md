@@ -1,97 +1,105 @@
-# BIT-X Runtime Proof
+🚀 Bằng chứng thời gian chạy BIT-X
 
-**Boundary-aware selective computation, audit, and system diagnosis based on Boundary Information Theory.**
+Tính toán có nhận thức về ranh giới, phản xạ và kiểm soát thời gian
 
-Author: Bùi Quang Trịnh (Vietnam)  
-Framework: Boundary Information Theory (BIT)
+🧠 Tổng quan
 
----
+Các hệ thống hiện đại thực hiện tính toán, phản hồi và cập nhật quá nhiều — theo mặc định.
 
-## Overview
+BIT-X giới thiệu một nguyên tắc khác:
 
-Modern systems compute, transfer, and react too much by default.
+Không phải tất cả dữ liệu đầu vào đều cần được tính toán.
+Không phải mọi khoảnh khắc đều cần được cập nhật.
+Không phải tất cả
 
-BIT-X explores a different principle:
+Kho lưu trữ này trình bày kiến ​​trúc ba lớp dựa trên Lý thuyết Thông tin Biên giới.
 
-> Not all information deserves equal computation.
+X4 — Lớp tính toán → quyết định xem có tính toán hay không
+X5 — Lớp phản xạ → quyết định xem có phản ứng hay không
+X6 — Lớp thời gian → quyết định thời điểm cập nhật
+⚙️ Kiến trúc
+Reality → Boundary → Decision
 
-Instead of optimizing only hardware, BIT-X studies how systems can reduce waste by identifying boundaries, coherence, friction, and instability before execution.
+X4 → Compute / Skip  
+X5 → Instant Reflex  
+X6 → Adaptive Timing
 
----
+Mỗi lớp hoạt động dựa trên sự không khớp thông tin (ΔI) :
 
-## BIT-X Structure
+ΔI thấp → bỏ qua / trì hoãn
+Trung bình ΔI → tính toán bình thường
+ΔI cao → phản hồi hoặc cập nhật nhanh hơn
+ΔI tới hạn → phản hồi tức thì
+🧪 Các lớp đã được triển khai
+🔹 X4 — Tính toán nhận biết ranh giới
 
-### BIT-X1 — Boundary Logic
+Không phải tất cả các dữ liệu đầu vào đều cần được tính toán đầy đủ.
 
-The conceptual layer: life, systems, relationships, and stability through boundaries.
+bỏ qua các phép tính không cần thiết
+giảm năng lượng tiêu hao trên mỗi sản lượng hữu ích
+được triển khai trên CPU/GPU tiêu chuẩn
 
-### BIT-X2 — Compute Audit
+👉 Xem:/x4_runtime_proof/
 
-The operational layer: GPU efficiency, Tokens/Joule, heat, boundary friction, and audit tools.
+🔹 X5 — Lớp phản xạ
 
-### BIT-X3 — System Diagnosis
+Một số sự kiện phải diễn ra mà không cần suy nghĩ.
 
-The diagnostic layer: root cause analysis, boundary diagnosis, phase collapse, and stability envelopes.
+phát hiện các tín hiệu quan trọng
+kích hoạt phản hồi tức thì
+tránh toàn bộ quy trình tính toán
 
-### BIT-X4 — Runtime Proof
+👉 Xem:/x5_reflex_layer/
 
-The execution layer: boundary-aware selective computation and input coherence gating.
+🔹 X6 — Ranh giới thời gian
 
----
+Không phải mọi khoảnh khắc đều cần tính toán.
 
-## Core Principle
+thích ứng cập nhật f
+giảm thiểu các bản cập nhật trùng lặp
+giới thiệu
 
-> Compute only when the boundary condition justifies computation.
+👉 Xem:/x6_temporal_layer/
 
----
+📊 Bản demo
 
-## Repository Map
----
+Kho lưu trữ này bao gồm:
 
-## 📊 Preliminary Result (Simulation)
+Tính toán so với hành vi bỏ qua (X4)
+phản xạ hô hấp
+thích ứng t
 
-![BIT-X4 Trade-off Curve](x4_runtime_proof/x4_curve.png)
+Tất cả các thí nghiệm đều được thực hiện trên môi trường tiêu chuẩn (không sử dụng phần cứng tùy chỉnh).
 
-The trade-off curve shows:
+🎯 Khóa R
+Giảm số bước tính toán trong điều kiện ổn định
+Đảm bảo tính chính xác
+Phản ứng tức thì trong những thay đổi quan trọng
+🔥 Thông tin cốt lõi
 
-- Lower coverage → lower compute cost  
-- Slight accuracy reduction → improved efficiency  
+Trí thông minh không chỉ đơn thuần là khả năng tính toán hiệu quả.
 
-This suggests that boundary-aware selection can reduce unnecessary computation under controlled conditions.
+Nội dung chính là:
 
----
+biết khi nào
+biết khi nào cần phản ứng
+biết
+🧭 Vị trí tại BIT
+X4 → computation selection  
+X5 → reflex response  
+X6 → temporal control  
 
-## 🔍 Interpretation
+Cùng nhau, chúng tạo thành một kiến ​​trúc thời gian chạy thích ứng tối thiểu .
 
-This is an early simulation result.
+📁 Cấu trúc kho lưu trữ
+x4_runtime_proof/     → compute layer
+x5_reflex_layer/      → reflex layer
+x6_temporal_layer/    → temporal layer
+🚀 Trạng thái
+X4 → đã được xác thực (bằng chứng thời gian chạy)
+X5 → thể hiện (hành vi phản xạ)
+X6 → mô phỏng (thời gian thích ứng + thức tỉnh)
+👤 Tác giả
 
-- The system processes less data (reduced coverage)  
-- Energy usage decreases accordingly  
-- Accuracy degrades gradually, not catastrophically  
-
-This indicates a **controlled trade-off between efficiency and performance**.
-
----
-
-## ⚠️ Status
-
-- Simulation-based result  
-- Not a physical energy measurement yet  
-- NVIDIA GPU validation is in progress  
-
----
-
-> Even in simulation, boundary-aware selection shows a consistent trade-off between compute cost and output quality.
-```text
----
-
-## 📊 Preliminary Result (Simulation)
-
-![BIT-X4 Trade-off Curve](x4_runtime_proof/x4_curve.png)
-Create main README
-docs/
-x1_boundary_logic/
-x2_compute_audit/
-x3_system_diagnosis/
-x4_runtime_proof/
-assets/
+Bùi Quang Trinh (Việt Nam) - Global thinker
+Founder: Lý thuyết thông tin ranh giới (BIT)
