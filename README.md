@@ -102,4 +102,5 @@ X6 → mô phỏng (thời gian thích ứng + thức tỉnh)
 👤 Tác giả
 
 Bùi Quang Trinh (Việt Nam) - Global thinker
-Founder: Lý thuyết thông tin ranh giới (BIT)
+- Founder: Lý thuyết thông tin ranh giới (BIT)
+- Date: May 2, 2026
