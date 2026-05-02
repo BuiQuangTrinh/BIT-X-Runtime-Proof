@@ -71,4 +71,6 @@ The video below demonstrates reflex-like behavior:
 ## 🔥 Insight
 
 > Intelligence is not only about thinking.  
-> It is also about knowing when not to think.
+> It is also about knowing when not to think.  
+>  
+> And knowing when to act before thinking.
