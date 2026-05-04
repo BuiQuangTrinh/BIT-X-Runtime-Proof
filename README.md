@@ -1,106 +1,216 @@
-🚀 Bằng chứng thời gian chạy BIT-X
+# 🚀 BIT-X Runtime Proof
 
-Tính toán có nhận thức về ranh giới, phản xạ và kiểm soát thời gian
+**Boundary-aware computation, reflex response, temporal control, goal recovery, and boundary navigation**  
+**Boundary Information Theory (BIT)**
 
-🧠 Tổng quan
+**Author:** Bùi Quang Trịnh (Vietnam)  
+**Companions:** OpenAI GPT & Google Gemini  
+**Date:** May 2026
 
-Các hệ thống hiện đại thực hiện tính toán, phản hồi và cập nhật quá nhiều — theo mặc định.
+---
 
-BIT-X giới thiệu một nguyên tắc khác:
+## Overview
 
-Không phải tất cả dữ liệu đầu vào đều cần được tính toán.
-Không phải mọi khoảnh khắc đều cần được cập nhật.
-Không phải tất cả
+Modern systems compute, react, update, and execute too much by default.
 
-Kho lưu trữ này trình bày kiến ​​trúc ba lớp dựa trên Lý thuyết Thông tin Biên giới.
+BIT-X introduces a different runtime principle:
+Low boundary pressure      → skip / delay / continue
+Medium boundary pressure   → compute normally / update carefully
+High boundary pressure     → reduce load / recover / correct
+Critical boundary pressure → reflex / safe stop / ask confirmation
+BIT-X-Runtime-Proof/
+│
+├── assets/
+├── docs/
+│
+├── x1_boundary_logic/
+├── x2_compute_audit/
+├── x3_system_diagnosis/
+├── x4_runtime_proof/
+├── x5_reflex_layer/
+│
+├── x6_2_boundary_diagnostics/
+├── x6_2_y_decision_execution_layer/
+├── x6_2_d_validation_deployment_layer/
+├── x6_3_temporal_layer/
+├── x6_4_goal_conflict_recovery/
+├── x6_5_boundary_information_navigation/
+│
+└── README.md
+Implemented Modules
+Module	Name	Folder	Status
+X1	Boundary Logic	x1_boundary_logic/
+	Conceptual
+X2	Compute Audit	x2_compute_audit/
+	Prototype
+X3	System Diagnosis	x3_system_diagnosis/
+	Prototype
+X4	Runtime Proof	x4_runtime_proof/
+	Prototype
+X5	Reflex Layer	x5_reflex_layer/
+	Prototype
+X6.2	Boundary Diagnostics	x6_2_boundary_diagnostics/
+	Prototype v0.1
+X6.2-Y	Decision / Execution Layer	x6_2_y_decision_execution_layer/
+	Prototype v0.1
+X6.2-D	Validation / Deployment Layer	x6_2_d_validation_deployment_layer/
+	Prototype v0.1
+X6.3	Temporal Boundary Layer	x6_3_temporal_layer/
+	Prototype v0.1
+X6.4	Goal Conflict Recovery	x6_4_goal_conflict_recovery/
+	Prototype v0.1
+X6.5	Boundary Information Navigation	x6_5_boundary_information_navigation/
+	Prototype v0.1
+  Module Summary
+X1 — Boundary Logic
 
-X4 — Lớp tính toán → quyết định xem có tính toán hay không
-X5 — Lớp phản xạ → quyết định xem có phản ứng hay không
-X6 — Lớp thời gian → quyết định thời điểm cập nhật
-⚙️ Kiến trúc
-Reality → Boundary → Decision
+X1 introduces the basic boundary logic of BIT.
 
-X4 → Compute / Skip  
-X5 → Instant Reflex  
-X6 → Adaptive Timing
+A boundary determines what enters, what is ignored, what is stored, what is transformed, and what triggers action.
 
-Mỗi lớp hoạt động dựa trên sự không khớp thông tin (ΔI) :
+X2 — Compute Audit
 
-ΔI thấp → bỏ qua / trì hoãn
-Trung bình ΔI → tính toán bình thường
-ΔI cao → phản hồi hoặc cập nhật nhanh hơn
-ΔI tới hạn → phản hồi tức thì
-🧪 Các lớp đã được triển khai
-🔹 X4 — Tính toán nhận biết ranh giới
+X2 focuses on measuring computation efficiency.
 
-Không phải tất cả các dữ liệu đầu vào đều cần được tính toán đầy đủ.
+Core metric:
+η_BIT = Useful Output / Energy
+The goal is to reduce unnecessary computation and improve energy efficiency under standard hardware conditions.
 
-bỏ qua các phép tính không cần thiết
-giảm năng lượng tiêu hao trên mỗi sản lượng hữu ích
-được triển khai trên CPU/GPU tiêu chuẩn
+X3 — System Diagnosis
 
-👉 Xem:/x4_runtime_proof/
+X3 introduces boundary-aware system diagnosis.
 
-🔹 X5 — Lớp phản xạ
+It asks whether system failure comes from structural mismatch, operational overload, phase misalignment, noise accumulation, or boundary collapse.
 
-Một số sự kiện phải diễn ra mà không cần suy nghĩ.
+X4 — Runtime Proof
 
-phát hiện các tín hiệu quan trọng
-kích hoạt phản hồi tức thì
-tránh toàn bộ quy trình tính toán
+X4 introduces boundary-aware selective computation.
 
-👉 Xem:/x5_reflex_layer/
+Core idea:
+Not every input deserves full computation.
+The system decides whether to compute, skip, delay, or reduce.
 
-🔹 X6 — Ranh giới thời gian
+X5 — Reflex Layer
 
-Không phải mọi khoảnh khắc đều cần tính toán.
+X5 introduces reflex behavior.
 
-thích ứng cập nhật f
-giảm thiểu các bản cập nhật trùng lặp
-giới thiệu
+Core idea:
+Some events must trigger action before full reasoning.
+his is useful for sudden anomalies, urgent signals, safety triggers, collapse warnings, and high mismatch conditions.
 
-👉 Xem:/x6_temporal_layer/
+X6.2 — Boundary Diagnostics
 
-📊 Bản demo
+X6.2 detects early instability in adaptive systems.
 
-Kho lưu trữ này bao gồm:
+It tracks observable output, adaptive capacity α_eff, rolling stress, Boundary Interaction Index Ξ, and boundary state transitions.
 
-Tính toán so với hành vi bỏ qua (X4)
-phản xạ hô hấp
-thích ứng t
+X6.2-Y — Decision / Execution Layer
 
-Tất cả các thí nghiệm đều được thực hiện trên môi trường tiêu chuẩn (không sử dụng phần cứng tùy chỉnh).
+X6.2-Y maps diagnostic states into execution actions.
 
-🎯 Khóa R
-Giảm số bước tính toán trong điều kiện ổn định
-Đảm bảo tính chính xác
-Phản ứng tức thì trong những thay đổi quan trọng
-🔥 Thông tin cốt lõi
+Diagnostic State	Execution Action
+stable	continue
+warning	reduce_load
+critical	safe_stop
+X6.2-D — Validation / Deployment Layer
 
-Trí thông minh không chỉ đơn thuần là khả năng tính toán hiệu quả.
+X6.2-D validates whether boundary-aware decisions reduce risk.
 
-Nội dung chính là:
+It compares baseline exposure, BIT-controlled exposure, drawdown reduction, false alarm rate, missed danger rate, and stability score.
 
-biết khi nào
-biết khi nào cần phản ứng
-biết
-🧭 Vị trí tại BIT
-X4 → computation selection  
-X5 → reflex response  
-X6 → temporal control  
+X6.3 — Temporal Boundary Layer
 
-Cùng nhau, chúng tạo thành một kiến ​​trúc thời gian chạy thích ứng tối thiểu .
+X6.3 models how adaptive systems fail when response arrives too late.
+TBE(t) = |S(t) - R(t - τ)|
+The purpose is detecting timing drift and temporal instability.
 
-📁 Cấu trúc kho lưu trữ
-x4_runtime_proof/     → compute layer
-x5_reflex_layer/      → reflex layer
-x6_temporal_layer/    → temporal layer
-🚀 Trạng thái
-X4 → đã được xác thực (bằng chứng thời gian chạy)
-X5 → thể hiện (hành vi phản xạ)
-X6 → mô phỏng (thời gian thích ứng + thức tỉnh)
-👤 Tác giả
+X6.4 — Goal Conflict Recovery
 
-Bùi Quang Trinh (Việt Nam) - Global thinker
-- Founder: Lý thuyết thông tin ranh giới (BIT)
-- Date: May 2, 2026
+X6.4 models goal conflict in adaptive agents.
+
+Key principle:
+Do not execute confidently when the goal depends on missing, delayed, or uncertain context.
+Recover context first.
+Ask for confirmation if confidence is low.
+X6.5 — Boundary Information Navigation
+
+X6.5 applies BIT to deep space transit and boundary-aware navigation.
+
+Core concept:
+B_nav = (A_phase · S_boundary · G_energy · R_return) / (Δv · R_risk · T_variance)
+The minimal claim:
+Interplanetary navigation can be modeled as movement through boundary-structured orbital phase space.
+Boundary Logic
+        ↓
+Compute Audit
+        ↓
+System Diagnosis
+        ↓
+Runtime Computation Selection
+        ↓
+Reflex Response
+        ↓
+Boundary Diagnostics
+        ↓
+Decision / Execution
+        ↓
+Validation / Deployment
+        ↓
+Temporal Alignment
+        ↓
+Goal Conflict Recovery
+        ↓
+Boundary Information Navigation
+
+Core Insight
+
+Intelligence is not only the ability to compute.
+
+It is the ability to know:
+when to compute
+when to skip
+when to react
+when to delay
+when to reduce load
+when to validate
+when to recover context
+when to ask for confirmation
+when to navigate through boundary corridors
+Demo Outputs
+
+Each active module is designed to contain:
+README.md
+Python simulation script
+CSV log output
+PNG result chart
+urrent outputs include boundary diagnostics, decision execution logs, validation charts, temporal boundary error curves, goal conflict recovery logs, and boundary navigation score outputs.
+
+Research Position
+
+BIT-X is not presented as a completed production system.
+
+It is a research-oriented runtime framework exploring how boundary-aware systems may reduce unnecessary computation, improve adaptive timing, respond faster to critical signals, avoid unsafe execution under missing context, validate risk-aware decisions, and navigate structured state spaces.
+
+Disclaimer
+
+The BIT-X modules are conceptual and experimental prototypes.
+
+They are not production systems.
+
+They should not be used as financial, aerospace, engineering, medical, legal, or operational control tools without independent validation.
+
+Author
+
+Bùi Quang Trịnh (Vietnam)
+Founder / Author: Boundary Information Theory (BIT)
+Companions: OpenAI GPT & Google Gemini
+Date: May 4, 2026
+
+Update root README with unified BIT-X architecture
+```text
+Update root README with unified BIT-X architecture
+Not every input deserves full computation.
+Not every signal deserves immediate reaction.
+Not every moment requires an update.
+Not every goal should be executed without stable context.
+Not every path should be optimized by distance alone.
