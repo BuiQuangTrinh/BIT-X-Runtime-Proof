@@ -1,51 +1,51 @@
-# 🚀 BIT-X6.2 — Boundary-Based Instability Diagnostics
+# BIT-X6.2 — Boundary Diagnostics
 
-Boundary-aware diagnostic framework for detecting instability in time-series systems.
-
----
-
-## 🧠 Core Idea
-
-Traditional systems react to price.
-
-BIT-X6.2 monitors **structural imbalance**:
-
-- Boundary Interaction Index (Ξ)
-- Effective Adaptive Capacity (α_eff)
-
-Instability is defined as:
-
-> Pressure accumulation / Reduced adaptive capacity
+**Boundary Information Theory (BIT)**  
+Author: Bùi Quang Trịnh (Vietnam)  
+Repository: BIT-X-Runtime-Proof
 
 ---
 
-## ⚙️ What this repo does
+## 1. Purpose
 
-- Detects instability before price collapse
-- Generates decision states:
-  - ALLOW
-  - REDUCE
-  - RESTRICT
-  - FREEZE
-- Evaluates impact on equity curve
+BIT-X6.2 introduces a lightweight diagnostic layer for detecting early instability in adaptive systems.
 
----
+Instead of only observing the external output of a system, this module tracks the internal boundary condition between:
 
-## 📊 Example Output
+- external pressure,
+- adaptive capacity,
+- accumulated stress,
+- and collapse risk.
 
-![Result](result_plot.png)
+The goal is not to predict the future perfectly, but to identify when a system begins moving from a stable adaptive regime into a boundary-failure regime.
 
 ---
 
-## 📈 Key Observation
+## 2. Core Idea
 
-- Ξ increases **before** price drop
-- Decision layer reduces exposure
-- Drawdown reduced vs baseline
+A system may appear normal at the surface while its internal adaptive capacity is already weakening.
+
+BIT-X6.2 models this through three diagnostic layers:
+
+1. **Observed Layer** — visible system output  
+2. **Adaptive Layer** — effective adaptive capacity  
+3. **Boundary Layer** — interaction index between stress and capacity  
+
+When boundary interaction rises while adaptive capacity declines, the system enters a higher-risk state.
 
 ---
 
-## ▶️ How to run
+## 3. Diagnostic Layers
 
-```bash
-python demo.py
+### Layer 1 — Price / Output Signal
+
+This represents the visible behavior of the system.
+
+In this simulation, the output signal remains relatively stable before entering a decline phase.
+
+### Layer 2 — Effective Adaptive Capacity
+
+The adaptive capacity coefficient is represented as:
+
+```text
+α_eff
