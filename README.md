@@ -1,259 +1,172 @@
-# 🚀 BIT-X Runtime Proof
+# BIT-X Runtime Proof
 
-**Boundary-aware computation, reflex response, temporal control, goal recovery, and boundary navigation**  
-**Boundary Information Theory (BIT)**
-
+**Boundary-aware runtime architecture for computation, diagnosis, reflex response, temporal control, goal recovery, navigation, and mission control**  
+**Boundary Information Theory (BIT)**  
 **Author:** Bùi Quang Trịnh (Vietnam)  
 **Companions:** OpenAI GPT & Google Gemini  
-**Date:** May 2026
 
 ---
 
-## Overview
+## 1. Overview
 
-Modern systems compute, react, update, and execute too much by default.
+BIT-X Runtime Proof is a modular experimental repository for testing how **Boundary Information Theory (BIT)** can be applied to runtime systems.
 
-BIT-X introduces a different runtime principle:
-
-```text
-Not every input deserves full computation.
-Not every signal deserves immediate reaction.
-Not every moment requires an update.
-Not every goal should be executed without stable context.
-Not every path should be optimized by distance alone.
-```
-
-The core idea is:
+The core question is:
 
 ```text
-Reality → Boundary → Decision → Execution
+Can a system become more efficient, stable, and safe by evaluating boundaries before computation, action, or control?
 ```
 
-A system should evaluate boundary conditions before deciding whether to compute, skip, react, delay, recover, validate, or navigate.
+Instead of treating every input, signal, task, or goal equally, BIT-X proposes that a system should first evaluate:
+
+```text
+Is this signal meaningful?
+Is the boundary stable?
+Does this task deserve computation?
+Is the goal clear?
+Is the timing still valid?
+Is the path safe?
+Should the system continue, reduce load, recover, or stop?
+```
+
+This repository converts those ideas into small prototype modules, simulations, logs, and visual outputs.
 
 ---
 
-## Core Principle
+## 2. Core Principle
 
-BIT-X is built around boundary pressure and information mismatch.
+BIT-X is based on one simple runtime principle:
 
 ```text
-Low boundary pressure      → skip / delay / continue
-Medium boundary pressure   → compute normally / update carefully
-High boundary pressure     → reduce load / recover / correct
-Critical boundary pressure → reflex / safe stop / ask confirmation
+A system should not compute, react, execute, navigate, or control blindly.
+It should evaluate boundary conditions first.
 ```
 
-The goal is not to compute more.
+A boundary can separate:
 
-The goal is to do the right amount of action at the right boundary.
+```text
+signal from noise
+inside from outside
+useful computation from wasted computation
+stable state from unstable state
+valid goal from conflicting goal
+safe corridor from risky path
+mission control from mission collapse
+```
+
+In BIT-X, intelligence begins with boundary recognition.
 
 ---
 
-## Repository Structure
+## 3. Repository Structure
 
 ```text
 BIT-X-Runtime-Proof/
 │
+├── README.md
+│
 ├── assets/
+│   └── README.md
+│
 ├── docs/
+│   ├── README.md
+│   ├── 00_BIT_X_Overview.md
+│   ├── 01_BIT_X1_Boundary_Logic.md
+│   ├── 02_BIT_X2_Compute_Audit.md
+│   ├── 03_BIT_X3_System_Diagnosis.md
+│   ├── 04_BIT_X4_Runtime_Proof.md
+│   ├── 05_BIT_X5_Reflex_Layer.md
+│   ├── 06_BIT_X6_Adaptive_Boundary_Systems.md
+│   ├── 07_BIT_X6_2_Boundary_Diagnostics.md
+│   ├── 08_BIT_X6_2_Y_Decision_Execution_Layer.md
+│   ├── 09_BIT_X6_2_D_Validation_Deployment_Layer.md
+│   ├── 10_BIT_X6_3_Temporal_Boundary_Layer.md
+│   ├── 11_BIT_X6_4_Goal_Conflict_Recovery.md
+│   ├── 12_BIT_X6_5_Boundary_Information_Navigation.md
+│   └── 13_BIT_X6_6_Boundary_Mission_Control.md
 │
 ├── x1_boundary_logic/
+│   └── README.md
+│
 ├── x2_compute_audit/
+│   └── README.md
+│
 ├── x3_system_diagnosis/
+│   └── README.md
+│
 ├── x4_runtime_proof/
+│   └── README.md
+│
 ├── x5_reflex_layer/
+│   └── README.md
 │
 ├── x6_2_boundary_diagnostics/
-├── x6_2_y_decision_execution_layer/
-├── x6_2_d_validation_deployment_layer/
-├── x6_3_temporal_layer/
-├── x6_4_goal_conflict_recovery/
-├── x6_5_boundary_information_navigation/
-├── x6_6_boundary_mission_control/
+│   ├── README.md
+│   ├── bit_x6_2_boundary_diagnostics.py
+│   ├── sample_output.csv
+│   ├── result_plot.png
+│   └── bit_x6_2_full_system_output.png
 │
-└── README.md
+├── x6_2_y_decision_execution_layer/
+│   ├── README.md
+│   ├── bit_x6_2_y_decision_execution_layer.py
+│   ├── decision_execution_log.csv
+│   └── bit_x6_2_y_decision_execution_output.png
+│
+├── x6_2_d_validation_deployment_layer/
+│   ├── README.md
+│   ├── bit_x6_2_d_validation_deployment_layer.py
+│   ├── validation_deployment_log.csv
+│   └── bit_x6_2_d_validation_output.png
+│
+├── x6_3_temporal_layer/
+│   ├── README.md
+│   ├── bit_x6_3_temporal_layer.py
+│   ├── temporal_boundary_log.csv
+│   └── bit_x6_3_temporal_boundary_output.png
+│
+├── x6_4_goal_conflict_recovery/
+│   ├── README.md
+│   ├── bit_x6_4_goal_conflict_recovery.py
+│   ├── goal_conflict_recovery_log.csv
+│   └── bit_x6_4_goal_conflict_recovery_output.png
+│
+├── x6_5_boundary_information_navigation/
+│   ├── README.md
+│   ├── bit_x6_5_boundary_information_navigation.py
+│   ├── boundary_navigation_log.csv
+│   └── bit_x6_5_boundary_navigation_output.png
+│
+└── x6_6_boundary_mission_control/
+    ├── README.md
+    ├── bit_x6_6_boundary_mission_control.py
+    ├── boundary_mission_control_log.csv
+    └── bit_x6_6_boundary_mission_control_output.png
 ```
 
 ---
 
-## Implemented Modules
-
-| Module | Name | Folder | Status |
-|---|---|---|---|
-| X1 | Boundary Logic | [`x1_boundary_logic/`](x1_boundary_logic/) | Conceptual |
-| X2 | Compute Audit | [`x2_compute_audit/`](x2_compute_audit/) | Prototype |
-| X3 | System Diagnosis | [`x3_system_diagnosis/`](x3_system_diagnosis/) | Prototype |
-| X4 | Runtime Proof | [`x4_runtime_proof/`](x4_runtime_proof/) | Prototype |
-| X5 | Reflex Layer | [`x5_reflex_layer/`](x5_reflex_layer/) | Prototype |
-| X6.2 | Boundary Diagnostics | [`x6_2_boundary_diagnostics/`](x6_2_boundary_diagnostics/) | Prototype v0.1 |
-| X6.2-Y | Decision / Execution Layer | [`x6_2_y_decision_execution_layer/`](x6_2_y_decision_execution_layer/) | Prototype v0.1 |
-| X6.2-D | Validation / Deployment Layer | [`x6_2_d_validation_deployment_layer/`](x6_2_d_validation_deployment_layer/) | Prototype v0.1 |
-| X6.3 | Temporal Boundary Layer | [`x6_3_temporal_layer/`](x6_3_temporal_layer/) | Prototype v0.1 |
-| X6.4 | Goal Conflict Recovery | [`x6_4_goal_conflict_recovery/`](x6_4_goal_conflict_recovery/) | Prototype v0.1 |
-| X6.5 | Boundary Information Navigation | [`x6_5_boundary_information_navigation/`](x6_5_boundary_information_navigation/) | Prototype v0.1 |
-| X6.6 | Boundary Mission Control | [`x6_6_boundary_mission_control/`](x6_6_boundary_mission_control/) | Prototype v0.1 |
-
----
-
-## Module Summary
-
-### X1 — Boundary Logic
-
-X1 introduces the basic boundary logic of BIT.
-
-A boundary determines what enters, what is ignored, what is stored, what is transformed, and what triggers action.
-
----
-
-### X2 — Compute Audit
-
-X2 focuses on measuring computation efficiency.
-
-Core metric:
+## 4. Current BIT-X Sequence
 
 ```text
-η_BIT = Useful Output / Energy
-```
-
-The goal is to reduce unnecessary computation and improve energy efficiency under standard hardware conditions.
-
----
-
-### X3 — System Diagnosis
-
-X3 introduces boundary-aware system diagnosis.
-
-It asks whether system failure comes from structural mismatch, operational overload, phase misalignment, noise accumulation, or boundary collapse.
-
----
-
-### X4 — Runtime Proof
-
-X4 introduces boundary-aware selective computation.
-
-Core idea:
-
-```text
-Not every input deserves full computation.
-```
-
-The system decides whether to compute, skip, delay, or reduce.
-
----
-
-### X5 — Reflex Layer
-
-X5 introduces reflex behavior.
-
-Core idea:
-
-```text
-Some events must trigger action before full reasoning.
-```
-
-This is useful for sudden anomalies, urgent signals, safety triggers, collapse warnings, and high mismatch conditions.
-
----
-
-### X6.2 — Boundary Diagnostics
-
-X6.2 detects early instability in adaptive systems.
-
-It tracks observable output, adaptive capacity `α_eff`, rolling stress, Boundary Interaction Index `Ξ`, and boundary state transitions.
-
----
-
-### X6.2-Y — Decision / Execution Layer
-
-X6.2-Y maps diagnostic states into execution actions.
-
-| Diagnostic State | Execution Action |
-|---|---|
-| `stable` | `continue` |
-| `warning` | `reduce_load` |
-| `critical` | `safe_stop` |
-
----
-
-### X6.2-D — Validation / Deployment Layer
-
-X6.2-D validates whether boundary-aware decisions reduce risk.
-
-It compares baseline exposure, BIT-controlled exposure, drawdown reduction, false alarm rate, missed danger rate, and stability score.
-
----
-
-### X6.3 — Temporal Boundary Layer
-
-X6.3 models how adaptive systems fail when response arrives too late.
-
-```text
-TBE(t) = |S(t) - R(t - τ)|
-```
-
-The purpose is detecting timing drift and temporal instability.
-
----
-
-### X6.4 — Goal Conflict Recovery
-
-X6.4 models goal conflict in adaptive agents.
-
-Key principle:
-
-```text
-Do not execute confidently when the goal depends on missing, delayed, or uncertain context.
-Recover context first.
-Ask for confirmation if confidence is low.
+BIT-X1     — Boundary Logic
+BIT-X2     — Compute Audit
+BIT-X3     — System Diagnosis
+BIT-X4     — Runtime Proof
+BIT-X5     — Reflex Layer
+BIT-X6     — Adaptive Boundary Systems
+BIT-X6.2   — Boundary Diagnostics
+BIT-X6.2-Y — Decision / Execution Layer
+BIT-X6.2-D — Validation / Deployment Layer
+BIT-X6.3   — Temporal Boundary Layer
+BIT-X6.4   — Goal Conflict Recovery
+BIT-X6.5   — Boundary Information Navigation
+BIT-X6.6   — Boundary Mission Control
 ```
 
 ---
 
-### X6.5 — Boundary Information Navigation
-
-X6.5 applies BIT to deep space transit and boundary-aware navigation.
-
-Core concept:
-
-```text
-B_nav = (A_phase · S_boundary · G_energy · R_return) / (Δv · R_risk · T_variance)
-```
-
-The minimal claim:
-
-```text
-Interplanetary navigation can be modeled as movement through boundary-structured orbital phase space.
-```
-
----
-
-### X6.6 — Boundary Mission Control
-
-X6.6 extends boundary-aware navigation into adaptive mission control.
-
-Core idea:
-
-```text
-X6.5 = find the corridor
-X6.6 = stay inside the corridor
-```
-
-Mission control score:
-
-```text
-M_control = (W_s · S + W_e · E + W_r · R + W_g · G) / (C + V + U)
-```
-
-The minimal claim:
-
-```text
-A boundary-aware system should adapt its control strategy when stability, energy, risk, uncertainty, and goal alignment change.
-```
-
----
-
-## Current BIT-X Pipeline
+## 5. Architecture Pipeline
 
 ```text
 Boundary Logic
@@ -262,9 +175,11 @@ Compute Audit
         ↓
 System Diagnosis
         ↓
-Runtime Computation Selection
+Runtime Selective Computation
         ↓
 Reflex Response
+        ↓
+Adaptive Boundary Systems
         ↓
 Boundary Diagnostics
         ↓
@@ -281,61 +196,507 @@ Boundary Information Navigation
 Boundary Mission Control
 ```
 
----
-
-## Core Insight
-
-Intelligence is not only the ability to compute.
-
-It is the ability to know:
+This forms the current BIT-X runtime axis:
 
 ```text
-when to compute
-when to skip
-when to react
-when to delay
-when to reduce load
-when to validate
-when to recover context
-when to ask for confirmation
-when to navigate through boundary corridors
-when to control a mission under changing boundaries
+Detect boundary → evaluate cost → diagnose failure → compute selectively
+→ respond quickly → adapt → validate → align timing → recover goal
+→ choose corridor → control mission
 ```
-
-BIT-X reframes runtime intelligence as boundary-aware action.
 
 ---
 
-## Demo Outputs
+## 6. Module Summary
 
-Each active module is designed to contain:
+| Module | Name | Core Question | Output |
+|---|---|---|---|
+| X1 | Boundary Logic | What should cross the boundary? | Boundary decision logic |
+| X2 | Compute Audit | How much useful output per energy cost? | Efficiency audit |
+| X3 | System Diagnosis | Which boundary failed? | Root cause diagnosis |
+| X4 | Runtime Proof | Which input deserves full computation? | Selective runtime decision |
+| X5 | Reflex Layer | Which signal requires immediate response? | Fast reflex action |
+| X6 | Adaptive Boundary Systems | How does the system preserve stability? | Adaptive framework |
+| X6.2 | Boundary Diagnostics | Is the boundary becoming unstable? | Diagnostic state |
+| X6.2-Y | Decision / Execution | What action follows diagnosis? | Execution action |
+| X6.2-D | Validation / Deployment | Did the action reduce risk? | Validation state |
+| X6.3 | Temporal Boundary Layer | Is the response too late? | Temporal state |
+| X6.4 | Goal Conflict Recovery | Is the goal dependent on missing context? | Recovery action |
+| X6.5 | Boundary Information Navigation | Which corridor should the system follow? | Navigation state |
+| X6.6 | Boundary Mission Control | How should the system control itself inside the corridor? | Mission control state |
+
+---
+
+## 7. Implemented Prototype Modules
+
+### BIT-X1 — Boundary Logic
+
+BIT-X1 defines the foundational idea of BIT-X:
 
 ```text
-README.md
-Python simulation script
-CSV log output
-PNG result chart
+A system exists because it has a boundary.
 ```
 
-Current outputs include boundary diagnostics, decision execution logs, validation charts, temporal boundary error curves, goal conflict recovery logs, boundary navigation score outputs, and boundary mission control simulations.
+It models how a system separates:
+
+```text
+signal from noise
+inside from outside
+action from inaction
+stable state from unstable state
+```
+
+This is the conceptual root of all later BIT-X modules.
 
 ---
 
-## Research Position
+### BIT-X2 — Compute Audit
 
-BIT-X is not presented as a completed production system.
+BIT-X2 introduces a boundary-aware compute efficiency audit.
 
-It is a research-oriented runtime framework exploring how boundary-aware systems may reduce unnecessary computation, improve adaptive timing, respond faster to critical signals, avoid unsafe execution under missing context, validate risk-aware decisions, navigate structured state spaces, and control missions under dynamic boundary conditions.
+The core idea:
+
+```text
+Do not measure only how much computation is performed.
+Measure how much useful output is produced per energy cost.
+```
+
+Core metric:
+
+```text
+η_BIT = Useful Output / Energy
+```
+
+This module supports the idea that runtime systems should reduce wasted computation.
 
 ---
 
-## Disclaimer
+### BIT-X3 — System Diagnosis
 
-The BIT-X modules are conceptual and experimental prototypes.
+BIT-X3 reframes diagnosis as boundary failure detection.
 
-They are not production systems.
+Instead of asking only:
 
-They should not be used as financial, aerospace, engineering, medical, legal, AI safety, mission design, or operational control tools without independent validation.
+```text
+What failed?
+```
+
+It asks:
+
+```text
+Which boundary failed?
+```
+
+Possible failure boundaries include:
+
+```text
+input overload
+memory leakage
+energy excess
+timing drift
+feedback error
+goal conflict
+boundary collapse
+```
+
+---
+
+### BIT-X4 — Runtime Proof
+
+BIT-X4 introduces boundary-aware selective computation.
+
+The core principle:
+
+```text
+Not every input deserves full computation.
+```
+
+A system may choose:
+
+```text
+skip
+light_compute
+full_compute
+review
+```
+
+This module connects BIT with runtime efficiency.
+
+---
+
+### BIT-X5 — Reflex Layer
+
+BIT-X5 introduces fast response before full reasoning.
+
+The core idea:
+
+```text
+Some boundary events require immediate reflex before deep computation completes.
+```
+
+Possible actions:
+
+```text
+continue
+increase_sampling
+quick_correct
+safe_stop
+```
+
+This is useful for robotics, AI agents, sensor systems, and runtime safety layers.
+
+---
+
+### BIT-X6 — Adaptive Boundary Systems
+
+BIT-X6 is the broader adaptive layer.
+
+It asks:
+
+```text
+How does a system preserve stability when boundary conditions change?
+```
+
+X6 contains the practical submodules from diagnostics to mission control.
+
+---
+
+### BIT-X6.2 — Boundary Diagnostics
+
+BIT-X6.2 detects early boundary instability.
+
+Core concept:
+
+```text
+Ξ = stress / α_eff
+```
+
+Possible states:
+
+```text
+stable
+warning
+critical
+```
+
+This module acts as an early warning system before collapse.
+
+---
+
+### BIT-X6.2-Y — Decision / Execution Layer
+
+X6.2-Y maps boundary diagnosis into execution action.
+
+Example:
+
+```text
+stable   → continue
+warning  → reduce load
+critical → safe stop
+```
+
+This module connects detection with action.
+
+---
+
+### BIT-X6.2-D — Validation / Deployment Layer
+
+X6.2-D checks whether a boundary-aware action actually reduced risk.
+
+It compares:
+
+```text
+baseline behavior
+controlled behavior
+risk before action
+risk after action
+```
+
+This module prevents the system from assuming that an action worked without validation.
+
+---
+
+### BIT-X6.3 — Temporal Boundary Layer
+
+BIT-X6.3 detects temporal delay and phase drift.
+
+Core idea:
+
+```text
+A correct response delivered too late may become functionally wrong.
+```
+
+Simplified metric:
+
+```text
+TBE(t) = |S(t) - R(t - τ)|
+```
+
+This module adds timing awareness to adaptive systems.
+
+---
+
+### BIT-X6.4 — Goal Conflict Recovery
+
+BIT-X6.4 handles cases where the current goal depends on missing, delayed, or uncertain memory.
+
+Core idea:
+
+```text
+An intelligent agent should not execute confidently when its goal depends on missing or unstable context.
+```
+
+Possible states:
+
+```text
+clear
+memory_needed
+conflict_detected
+confirmation_required
+```
+
+This module gives the system a safe recovery mechanism before action.
+
+---
+
+### BIT-X6.5 — Boundary Information Navigation
+
+BIT-X6.5 introduces boundary-aware navigation.
+
+It asks:
+
+```text
+Which stable corridor should the system follow?
+```
+
+Core concept:
+
+```text
+The safest path is not always the shortest path.
+The most intelligent path is the one that preserves stability.
+```
+
+Simplified navigation score:
+
+```text
+B_nav = (A_phase · S_boundary · G_energy · R_return) / (Δv · R_risk · T_variance)
+```
+
+Possible states:
+
+```text
+outside
+edge
+corridor
+core
+```
+
+This module connects goal recovery with path selection.
+
+---
+
+### BIT-X6.6 — Boundary Mission Control
+
+BIT-X6.6 introduces adaptive mission control inside a selected boundary corridor.
+
+It asks:
+
+```text
+How should the system control itself when stability, energy, risk, uncertainty, and goal alignment change?
+```
+
+Core conceptual score:
+
+```text
+M_control = (W_s · S + W_e · E + W_r · R + W_g · G) / (C + V + U)
+```
+
+Where:
+
+```text
+S = stability
+E = energy margin
+R = risk control
+G = goal alignment
+C = correction cost
+V = variance
+U = uncertainty
+```
+
+Possible control states:
+
+```text
+optimal
+adjust
+protect
+recover
+abort
+```
+
+Possible actions:
+
+```text
+continue
+adaptive_correction
+reduce_speed_or_load
+recovery_maneuver
+safe_stop
+```
+
+This module completes the current X6 chain:
+
+```text
+Goal Recovery → Navigation → Mission Control
+```
+
+---
+
+## 8. Current X6 Chain
+
+```text
+X6.2   = detect instability
+X6.2-Y = choose execution action
+X6.2-D = validate the action
+X6.3   = check timing and phase drift
+X6.4   = recover goal conflict
+X6.5   = choose boundary corridor
+X6.6   = control mission inside the corridor
+```
+
+This gives the X6 layer a clear structure:
+
+```text
+diagnose → decide → validate → time-align → recover goal → navigate → control
+```
+
+---
+
+## 9. Demo Outputs
+
+Several modules generate simulation outputs such as:
+
+```text
+CSV logs
+PNG charts
+state classifications
+control actions
+risk and stability metrics
+```
+
+Typical output files include:
+
+```text
+sample_output.csv
+result_plot.png
+boundary_navigation_log.csv
+bit_x6_5_boundary_navigation_output.png
+boundary_mission_control_log.csv
+bit_x6_6_boundary_mission_control_output.png
+```
+
+These outputs are intended to show prototype behavior, not final validation.
+
+---
+
+## 10. How to Run a Module
+
+Example for X6.6:
+
+```bash
+cd x6_6_boundary_mission_control
+python bit_x6_6_boundary_mission_control.py
+```
+
+Expected outputs:
+
+```text
+boundary_mission_control_log.csv
+bit_x6_6_boundary_mission_control_output.png
+```
+
+For Google Colab, some scripts may include an optional download helper:
+
+```python
+try:
+    from google.colab import files
+    files.download(OUTPUT_PNG)
+    files.download(OUTPUT_CSV)
+except ImportError:
+    pass
+```
+
+This makes it easier to download generated charts and logs after running simulations.
+
+---
+
+## 11. Research Position
+
+BIT-X Runtime Proof is not a finished production framework.
+
+It is a research-oriented prototype sequence for exploring how boundary-aware logic may improve:
+
+```text
+runtime efficiency
+energy-aware computation
+system diagnosis
+reflex response
+temporal alignment
+goal recovery
+navigation
+mission control
+```
+
+The project is designed to grow through small, testable modules rather than one large claim.
+
+---
+
+## 12. Minimal Claim
+
+This repository does not claim that BIT-X is a complete theory of intelligence, control, physics, AI safety, or engineering.
+
+It makes a narrower claim:
+
+```text
+Boundary-aware runtime behavior can be modeled, simulated, and tested
+through modular layers of diagnosis, decision, validation, timing,
+goal recovery, navigation, and control.
+```
+
+The current repository provides early prototypes for that direction.
+
+---
+
+## 13. Suggested Future Work
+
+Possible next steps:
+
+```text
+BIT-X6.7 — Flow Negotiation / Anti-Flow Adaptation
+BIT-X7   — Autonomous Boundary Orientation
+real hardware testing
+NVIDIA GPU runtime measurement
+robotics simulation
+multi-agent coordination
+tool-use safety evaluation
+mission-control stress testing
+```
+
+Potential extension direction:
+
+```text
+X6.5 = choose the corridor
+X6.6 = control inside the corridor
+X6.7 = adapt when the flow resists the corridor
+```
+
+---
+
+## 14. Disclaimer
+
+This repository is for research and experimental simulation only.
+
+It does not provide AI safety certification, financial advice, engineering validation, aerospace guidance, medical advice, legal advice, trading systems, autonomous-vehicle control, or production mission-control logic.
+
+All simulations, equations, and outputs should be treated as conceptual or preliminary unless independently validated.
 
 ---
 
@@ -344,4 +705,4 @@ They should not be used as financial, aerospace, engineering, medical, legal, AI
 **Bùi Quang Trịnh (Vietnam)**  
 Founder / Author: **Boundary Information Theory (BIT)**  
 Companions: **OpenAI GPT & Google Gemini**  
-Date: **May 2026**
+Repository: **BIT-X-Runtime-Proof**
