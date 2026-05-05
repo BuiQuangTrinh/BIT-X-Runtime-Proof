@@ -162,7 +162,14 @@ BIT-X6.3   — Temporal Boundary Layer
 BIT-X6.4   — Goal Conflict Recovery
 BIT-X6.5   — Boundary Information Navigation
 BIT-X6.6   — Boundary Mission Control
-```
+BIT-x6.7_swarm_structural_intelligence/
+BIT-x6_8_mechanical_boundary_intelligence/
+BIT-x6_9_flow_vs_resistance_control/
+BIT-x6_10_edge_boundary_intelligence/
+BIT- x6_11_boundary_control_engine/
+BIT-x6_12_degradation_aware_mission_survival_control/
+BIT-x6_13_boundary_memory_engine/
+BIT- x6_14_fluid_boundary_networks/```
 
 ---
 
@@ -194,6 +201,22 @@ Goal Conflict Recovery
 Boundary Information Navigation
         ↓
 Boundary Mission Control
+       ↓
+Swarm Structural Intelligence
+        ↓
+Mechanical Boundary Intelligence
+        ↓
+Flow vs Resistance Control
+        ↓
+Edge Boundary Intelligence
+        ↓
+Boundary Control Engine
+        ↓
+Degradation-Aware Mission Survival Control
+        ↓
+Boundary Memory Engine
+        ↓
+Fluid Boundary Networks / Hydro-Spider Demo
 ```
 
 This forms the current BIT-X runtime axis:
