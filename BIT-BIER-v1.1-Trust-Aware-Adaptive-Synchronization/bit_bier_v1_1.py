@@ -1,20 +1,27 @@
 import numpy as np
 import random
+import pandas as pd
+import matplotlib.pyplot as plt
+
 
 # =========================================================
 # BIT-BIER v1.1 — BOUNDED ADAPTIVE TRUST REWIRING
+# WITH CSV EXPORT + PLOT
 # =========================================================
 
 def wrap_phase(phi):
     return phi % (2 * np.pi)
 
+
 def phase_diff(target, current):
     return (target - current + np.pi) % (2 * np.pi) - np.pi
+
 
 def circular_mean(phases):
     if len(phases) == 0:
         return 0.0
     return np.angle(np.mean(np.exp(1j * np.array(phases)))) % (2 * np.pi)
+
 
 def weighted_circular_mean(phases, weights):
     if len(phases) == 0:
@@ -59,6 +66,7 @@ class BITNode:
     def apply_shock(self, strength=2.3):
         if self.failed:
             return
+
         shock = np.random.normal(0, strength)
         self.phi = wrap_phase(self.phi + shock)
         self.velocity *= 0.25
@@ -79,7 +87,9 @@ class BITNode:
             return None
 
         if self.malicious:
-            return wrap_phase(self.phi + np.pi + np.random.normal(0, 0.45))
+            return wrap_phase(
+                self.phi + np.pi + np.random.normal(0, 0.45)
+            )
 
         return self.phi
 
@@ -100,9 +110,12 @@ class BITNode:
         else:
             self.state_suspicion -= 0.035
 
-        self.state_suspicion = float(np.clip(self.state_suspicion, 0.0, 1.0))
+        self.state_suspicion = float(
+            np.clip(self.state_suspicion, 0.0, 1.0)
+        )
 
         obs = self.observed_phi()
+
         if obs is None:
             echo_error = np.pi
         else:
@@ -117,30 +130,47 @@ class BITNode:
         else:
             self.echo_suspicion -= 0.06
 
-        self.echo_suspicion = float(np.clip(self.echo_suspicion, 0.0, 1.0))
+        self.echo_suspicion = float(
+            np.clip(self.echo_suspicion, 0.0, 1.0)
+        )
 
         combined_suspicion = (
             0.35 * self.state_suspicion +
             0.65 * self.echo_suspicion
         )
 
-        self.trust = float(np.clip(1.0 - combined_suspicion, 0.02, 1.0))
+        self.trust = float(
+            np.clip(1.0 - combined_suspicion, 0.02, 1.0)
+        )
 
         self.quarantined = (
             self.trust < 0.45 or
             self.echo_suspicion > 0.65
         )
 
-    def step(self, master_phi, neighbor_phis, neighbor_weights, recovery_mode=False):
+    def step(
+        self,
+        master_phi,
+        neighbor_phis,
+        neighbor_weights,
+        recovery_mode=False
+    ):
         if self.failed:
             return 0.0
 
-        local_phi = weighted_circular_mean(neighbor_phis, neighbor_weights) if neighbor_phis else self.phi
+        if neighbor_phis:
+            local_phi = weighted_circular_mean(
+                neighbor_phis,
+                neighbor_weights
+            )
+        else:
+            local_phi = self.phi
 
         d_master = phase_diff(master_phi, self.phi)
         d_local = phase_diff(local_phi, self.phi)
 
         lr = self.learning_rate
+
         if recovery_mode:
             lr *= 2.0
 
@@ -156,14 +186,24 @@ class BITNode:
 
         self.velocity += pull_force
         self.velocity *= self.damping
-        self.velocity = np.clip(self.velocity, -self.velocity_limit, self.velocity_limit)
+        self.velocity = np.clip(
+            self.velocity,
+            -self.velocity_limit,
+            self.velocity_limit
+        )
 
         drift_comp = -0.75 * self.drift
 
-        self.phi = wrap_phase(self.phi + self.velocity + self.drift + drift_comp)
+        self.phi = wrap_phase(
+            self.phi + self.velocity + self.drift + drift_comp
+        )
 
         final_diff = phase_diff(master_phi, self.phi)
-        coherence = max(0.0, 1.0 - abs(final_diff) / np.pi)
+
+        coherence = max(
+            0.0,
+            1.0 - abs(final_diff) / np.pi
+        )
 
         coherence = 0.84 * coherence + 0.16 * self.memory_chi
         self.memory_chi = coherence
@@ -185,6 +225,7 @@ def build_topology(n_nodes, mode="mesh", mesh_degree=5):
         for i in range(n_nodes):
             while len(graph[i]) < mesh_degree:
                 j = random.randint(0, n_nodes - 1)
+
                 if j != i:
                     graph[i].add(j)
                     graph[j].add(i)
@@ -199,6 +240,7 @@ def build_topology(n_nodes, mode="mesh", mesh_degree=5):
 
             for node in cluster:
                 node = int(node)
+
                 if node != leader:
                     graph[leader].add(node)
                     graph[node].add(leader)
@@ -212,6 +254,7 @@ def build_topology(n_nodes, mode="mesh", mesh_degree=5):
         for _ in range(n_nodes // 3):
             a = random.randint(0, n_nodes - 1)
             b = random.randint(0, n_nodes - 1)
+
             if a != b:
                 graph[a].add(b)
                 graph[b].add(a)
@@ -226,6 +269,7 @@ def apply_partition(graph, n_nodes, partition_ratio=0.35):
     new_graph = {i: set(v) for i, v in graph.items()}
 
     edges = []
+
     for i in range(n_nodes):
         for j in new_graph[i]:
             if i < j:
@@ -244,8 +288,10 @@ def apply_partition(graph, n_nodes, partition_ratio=0.35):
 def graph_edge_count(graph):
     return sum(len(v) for v in graph.values()) // 2
 
+
 def node_degree(graph, node_id):
     return len(graph[node_id])
+
 
 def alive_good_nodes(nodes, trust_threshold=0.75):
     return [
@@ -255,6 +301,7 @@ def alive_good_nodes(nodes, trust_threshold=0.75):
         and n.trust >= trust_threshold
         and n.echo_integrity >= 0.85
     ]
+
 
 def max_edges_for_alive(alive_count, target_avg_degree=4.0):
     return int((alive_count * target_avg_degree) / 2)
@@ -283,8 +330,19 @@ def bounded_trust_rewire(
             ni = nodes[i]
             nj = nodes[j]
 
-            bad_i = ni.failed or ni.quarantined or ni.trust < trust_threshold or ni.echo_integrity < 0.55
-            bad_j = nj.failed or nj.quarantined or nj.trust < trust_threshold or nj.echo_integrity < 0.55
+            bad_i = (
+                ni.failed or
+                ni.quarantined or
+                ni.trust < trust_threshold or
+                ni.echo_integrity < 0.55
+            )
+
+            bad_j = (
+                nj.failed or
+                nj.quarantined or
+                nj.trust < trust_threshold or
+                nj.echo_integrity < 0.55
+            )
 
             if bad_i or bad_j:
                 if j in new_graph[i]:
@@ -293,13 +351,20 @@ def bounded_trust_rewire(
                     removed_edges += 1
 
     alive_count = sum(1 for n in nodes if not n.failed)
-    edge_limit = max_edges_for_alive(alive_count, target_avg_degree=target_avg_degree)
+    edge_limit = max_edges_for_alive(
+        alive_count,
+        target_avg_degree=target_avg_degree
+    )
+
     current_edges = graph_edge_count(new_graph)
 
     if current_edges >= edge_limit:
         return new_graph, removed_edges, added_edges, edge_limit
 
-    healthy = alive_good_nodes(nodes, trust_threshold=add_trust_threshold)
+    healthy = alive_good_nodes(
+        nodes,
+        trust_threshold=add_trust_threshold
+    )
 
     if len(healthy) < 2:
         return new_graph, removed_edges, added_edges, edge_limit
@@ -314,9 +379,9 @@ def bounded_trust_rewire(
     attempts = 0
 
     while (
-        added_edges < max_new_edges_per_step
-        and graph_edge_count(new_graph) < edge_limit
-        and attempts < 300
+        added_edges < max_new_edges_per_step and
+        graph_edge_count(new_graph) < edge_limit and
+        attempts < 300
     ):
         attempts += 1
 
@@ -326,7 +391,8 @@ def bounded_trust_rewire(
             b for b in healthy
             if b != a
             and b not in new_graph[a]
-            and node_degree(new_graph, b) < max(3, int(target_avg_degree * 1.5))
+            and node_degree(new_graph, b) <
+            max(3, int(target_avg_degree * 1.5))
         ]
 
         if not possible:
@@ -339,6 +405,107 @@ def bounded_trust_rewire(
         added_edges += 1
 
     return new_graph, removed_edges, added_edges, edge_limit
+
+
+def export_results(system_log, topology_name):
+    df = pd.DataFrame(system_log)
+
+    csv_name = f"bit_bier_v1_1_{topology_name}_results.csv"
+    png_name = f"bit_bier_v1_1_{topology_name}_coherence_plot.png"
+
+    df.to_csv(csv_name, index=False)
+
+    plt.figure(figsize=(12, 6))
+
+    plt.plot(
+        df["step"],
+        df["global_coherence"],
+        label="Global Coherence"
+    )
+
+    plt.plot(
+        df["step"],
+        df["fragmentation"],
+        label="Fragmentation"
+    )
+
+    plt.plot(
+        df["step"],
+        df["variance"],
+        label="Variance"
+    )
+
+    plt.axhline(
+        0.90,
+        linestyle="--",
+        label="Recovery Threshold 0.90"
+    )
+
+    plt.title(
+        f"BIT-BIER v1.1 — Bounded Trust-Aware Synchronization ({topology_name})"
+    )
+
+    plt.xlabel("Simulation Step")
+    plt.ylabel("Metric Value")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+
+    plt.savefig(png_name, dpi=220)
+    plt.close()
+
+    print(f"Saved CSV : {csv_name}")
+    print(f"Saved Plot: {png_name}")
+
+
+def export_summary(summary_rows):
+    df = pd.DataFrame(summary_rows)
+
+    csv_name = "bit_bier_v1_1_summary.csv"
+    png_name = "bit_bier_v1_1_summary_barplot.png"
+
+    df.to_csv(csv_name, index=False)
+
+    plt.figure(figsize=(10, 6))
+
+    x = np.arange(len(df["topology"]))
+    width = 0.25
+
+    plt.bar(
+        x - width,
+        df["final_global_coherence"],
+        width,
+        label="Final Coherence"
+    )
+
+    plt.bar(
+        x,
+        df["final_fragmentation"],
+        width,
+        label="Final Fragmentation"
+    )
+
+    plt.bar(
+        x + width,
+        df["final_variance"],
+        width,
+        label="Final Variance"
+    )
+
+    plt.xticks(x, df["topology"])
+    plt.ylabel("Metric Value")
+
+    plt.title("BIT-BIER v1.1 — Final Metrics by Topology")
+
+    plt.legend()
+    plt.grid(axis="y")
+
+    plt.tight_layout()
+    plt.savefig(png_name, dpi=220)
+    plt.close()
+
+    print(f"Saved Summary CSV : {csv_name}")
+    print(f"Saved Summary Plot: {png_name}")
 
 
 def run_simulation(
@@ -385,13 +552,19 @@ def run_simulation(
     system_log = []
 
     print("=" * 165)
-    print(f"BIT-BIER v1.1 BOUNDED TRUST REWIRING | Topology: {topology_mode}")
-    print("=" * 165)
     print(
-        f"{'Step':<6} | {'Global C':<10} | {'Frag':<10} | {'Var':<10} | "
-        f"{'Trust':<10} | {'EchoInt':<10} | {'QNodes':<7} | {'Alive':<7} | "
-        f"{'Edges':<7} | {'AvgDeg':<7} | {'EdgeEff':<10} | {'State'}"
+        f"BIT-BIER v1.1 BOUNDED TRUST REWIRING | "
+        f"Topology: {topology_mode}"
     )
+    print("=" * 165)
+
+    print(
+        f"{'Step':<6} | {'Global C':<10} | {'Frag':<10} | "
+        f"{'Var':<10} | {'Trust':<10} | {'EchoInt':<10} | "
+        f"{'QNodes':<7} | {'Alive':<7} | {'Edges':<7} | "
+        f"{'AvgDeg':<7} | {'EdgeEff':<10} | {'State'}"
+    )
+
     print("-" * 165)
 
     for step in range(steps):
@@ -400,35 +573,65 @@ def run_simulation(
         if step in shock_steps:
             for node in nodes:
                 node.apply_shock(shock_strength)
+
             recovery_mode = True
-            print(f"{step:<6} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<10} | SHOCK EVENT")
+            print(f"{step:<6} | SHOCK EVENT")
 
         if step == failure_step:
             fail_count = int(n_nodes * failure_ratio)
-            alive_ids = [i for i, n in enumerate(nodes) if not n.failed]
-            failed_ids = random.sample(alive_ids, min(fail_count, len(alive_ids)))
+            alive_ids = [
+                i for i, n in enumerate(nodes)
+                if not n.failed
+            ]
+
+            failed_ids = random.sample(
+                alive_ids,
+                min(fail_count, len(alive_ids))
+            )
 
             for idx in failed_ids:
                 nodes[idx].fail()
 
             recovery_mode = True
-            print(f"{step:<6} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<10} | NODE FAILURE: {len(failed_ids)} nodes")
+            print(
+                f"{step:<6} | NODE FAILURE: "
+                f"{len(failed_ids)} nodes"
+            )
 
         if step == malicious_step:
-            alive_ids = [i for i, n in enumerate(nodes) if not n.failed]
+            alive_ids = [
+                i for i, n in enumerate(nodes)
+                if not n.failed
+            ]
+
             bad_count = int(n_nodes * malicious_ratio)
-            bad_ids = random.sample(alive_ids, min(bad_count, len(alive_ids)))
+
+            bad_ids = random.sample(
+                alive_ids,
+                min(bad_count, len(alive_ids))
+            )
 
             for idx in bad_ids:
                 nodes[idx].make_malicious()
 
             recovery_mode = True
-            print(f"{step:<6} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<10} | BAD ECHO: {len(bad_ids)} nodes")
+            print(
+                f"{step:<6} | BAD ECHO: "
+                f"{len(bad_ids)} nodes"
+            )
 
         if step == partition_step:
-            graph, cut_count = apply_partition(graph, n_nodes, partition_ratio)
+            graph, cut_count = apply_partition(
+                graph,
+                n_nodes,
+                partition_ratio
+            )
+
             recovery_mode = True
-            print(f"{step:<6} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<10} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<7} | {'---':<10} | NETWORK PARTITION: cut {cut_count} edges")
+            print(
+                f"{step:<6} | NETWORK PARTITION: "
+                f"cut {cut_count} edges"
+            )
 
         for node in nodes:
             node.update_trust(master_phi)
@@ -461,10 +664,12 @@ def run_simulation(
                 nb_node = nodes[nb]
 
                 obs = nb_node.observed_phi()
+
                 if obs is None:
                     continue
 
                 delay = random.randint(0, latency_max_steps)
+
                 if len(nb_node.phase_history) > delay:
                     obs = nb_node.phase_history[-1 - delay]
 
@@ -478,7 +683,13 @@ def run_simulation(
                 neighbor_phis.append(obs)
                 neighbor_weights.append(weight)
 
-            chi = node.step(master_phi, neighbor_phis, neighbor_weights, recovery_mode)
+            chi = node.step(
+                master_phi,
+                neighbor_phis,
+                neighbor_weights,
+                recovery_mode
+            )
+
             coherences.append(chi)
 
         alive_coherences = [
@@ -489,16 +700,37 @@ def run_simulation(
         alive_nodes = [n for n in nodes if not n.failed]
         alive_count = len(alive_coherences)
 
-        global_c = float(np.mean(alive_coherences)) if alive_coherences else 0.0
-        frag = 1.0 - global_c
-        var = float(np.var(alive_coherences)) if alive_coherences else 0.0
+        global_c = (
+            float(np.mean(alive_coherences))
+            if alive_coherences else 0.0
+        )
 
-        avg_trust = float(np.mean([n.trust for n in alive_nodes])) if alive_nodes else 0.0
-        avg_echo = float(np.mean([n.echo_integrity for n in alive_nodes])) if alive_nodes else 0.0
+        frag = 1.0 - global_c
+
+        var = (
+            float(np.var(alive_coherences))
+            if alive_coherences else 0.0
+        )
+
+        avg_trust = (
+            float(np.mean([n.trust for n in alive_nodes]))
+            if alive_nodes else 0.0
+        )
+
+        avg_echo = (
+            float(np.mean([n.echo_integrity for n in alive_nodes]))
+            if alive_nodes else 0.0
+        )
+
         qnodes = sum(1 for n in alive_nodes if n.quarantined)
 
         edges = graph_edge_count(graph)
-        avg_degree = (2 * edges / alive_count) if alive_count > 0 else 0.0
+
+        avg_degree = (
+            2 * edges / alive_count
+            if alive_count > 0 else 0.0
+        )
+
         edge_eff = global_c / edges if edges > 0 else 0.0
 
         if global_c > 0.94:
@@ -530,18 +762,7 @@ def run_simulation(
             "state": state
         })
 
-        interesting_steps = set()
-        for s in shock_steps:
-            interesting_steps.update([s, s + 1, s + 2, s + 3])
-
-        interesting_steps.update([
-            failure_step, failure_step + 1, failure_step + 2,
-            malicious_step, malicious_step + 1, malicious_step + 2,
-            partition_step, partition_step + 1, partition_step + 2,
-            rewiring_start_step, rewiring_start_step + 1, rewiring_start_step + 2
-        ])
-
-        if step % 10 == 0 or step in interesting_steps or state == "RECOVERED":
+        if step % 10 == 0 or state == "RECOVERED":
             print(
                 f"{step:<6} | "
                 f"{global_c:<10.4f} | "
@@ -563,64 +784,65 @@ def run_simulation(
 
     final = system_log[-1]
 
-    print(f"Final Global Coherence : {final['global_coherence']:.4f}")
-    print(f"Final Fragmentation    : {final['fragmentation']:.4f}")
-    print(f"Final Variance         : {final['variance']:.5f}")
-    print(f"Final Avg Trust        : {final['avg_trust']:.4f}")
-    print(f"Final Echo Integrity   : {final['avg_echo_integrity']:.4f}")
-    print(f"Final Quarantine Nodes : {final['quarantined_nodes']}")
-    print(f"Final Edges            : {final['edges']}")
-    print(f"Final Avg Degree       : {final['avg_degree']:.2f}")
-    print(f"Final Edge Efficiency  : {final['edge_efficiency']:.6f}")
-
-    if latest_edge_limit is not None:
-        print(f"Edge Limit             : {latest_edge_limit}")
-
-    print(f"Total Removed Edges    : {total_removed_edges}")
-    print(f"Total Added Edges      : {total_added_edges}")
-
     failed_total = sum(1 for n in nodes if n.failed)
     bad_total = sum(1 for n in nodes if n.malicious)
 
-    print(f"Failed Nodes           : {failed_total}/{n_nodes}")
-    print(f"Bad Echo Nodes         : {bad_total}/{n_nodes}")
-    print(f"Alive Nodes            : {final['alive']}/{n_nodes}")
+    malicious_alive = [
+        n for n in nodes
+        if n.malicious and not n.failed
+    ]
 
-    if recovered_steps:
-        print(f"Recovery Events        : {recovered_steps}")
-    else:
-        print("Recovery Events        : None")
-
-    malicious_alive = [n for n in nodes if n.malicious and not n.failed]
     if malicious_alive:
-        avg_bad_trust = np.mean([n.trust for n in malicious_alive])
-        avg_bad_echo = np.mean([n.echo_integrity for n in malicious_alive])
-        bad_quarantined = sum(1 for n in malicious_alive if n.quarantined)
+        avg_bad_trust = float(
+            np.mean([n.trust for n in malicious_alive])
+        )
 
-        print(f"Bad Echo Avg Trust     : {avg_bad_trust:.4f}")
-        print(f"Bad Echo Integrity     : {avg_bad_echo:.4f}")
-        print(f"Bad Echo Quarantined   : {bad_quarantined}/{len(malicious_alive)}")
+        avg_bad_echo = float(
+            np.mean([n.echo_integrity for n in malicious_alive])
+        )
 
-    print("\nFinal Node Snapshot:")
-    for n in nodes[:8]:
-        print({
-            "node": n.node_id,
-            "failed": n.failed,
-            "malicious": n.malicious,
-            "quarantined": n.quarantined,
-            "trust": round(n.trust, 3),
-            "echo_integrity": round(n.echo_integrity, 3),
-            "phi": round(n.phi, 3),
-            "velocity": round(n.velocity, 3),
-            "chi": round(n.memory_chi, 3)
-        })
+        bad_quarantined = sum(
+            1 for n in malicious_alive
+            if n.quarantined
+        )
+    else:
+        avg_bad_trust = 0.0
+        avg_bad_echo = 0.0
+        bad_quarantined = 0
 
-    return system_log, nodes, graph
+    summary = {
+        "topology": topology_mode,
+        "final_global_coherence": final["global_coherence"],
+        "final_fragmentation": final["fragmentation"],
+        "final_variance": final["variance"],
+        "final_avg_trust": final["avg_trust"],
+        "final_echo_integrity": final["avg_echo_integrity"],
+        "final_quarantined_nodes": final["quarantined_nodes"],
+        "final_edges": final["edges"],
+        "final_avg_degree": final["avg_degree"],
+        "final_edge_efficiency": final["edge_efficiency"],
+        "failed_nodes": failed_total,
+        "bad_echo_nodes": bad_total,
+        "alive_nodes": final["alive"],
+        "bad_echo_avg_trust": avg_bad_trust,
+        "bad_echo_integrity": avg_bad_echo,
+        "bad_echo_quarantined": bad_quarantined,
+        "total_removed_edges": total_removed_edges,
+        "total_added_edges": total_added_edges,
+        "edge_limit": latest_edge_limit
+    }
+
+    for key, value in summary.items():
+        print(f"{key}: {value}")
+
+    return system_log, nodes, graph, summary
 
 
 if __name__ == "__main__":
+    all_summaries = []
+
     for topo in ["ring", "mesh", "hierarchical"]:
-        run_simulation(
+        system_log, nodes, graph, summary = run_simulation(
             topology_mode=topo,
             n_nodes=60,
             steps=320,
@@ -648,4 +870,20 @@ if __name__ == "__main__":
             seed=42
         )
 
+        export_results(system_log, topo)
+        all_summaries.append(summary)
+
         print("\n\n")
+
+    export_summary(all_summaries)
+
+    print("\nDONE.")
+    print("Generated files:")
+    print("- bit_bier_v1_1_ring_results.csv")
+    print("- bit_bier_v1_1_mesh_results.csv")
+    print("- bit_bier_v1_1_hierarchical_results.csv")
+    print("- bit_bier_v1_1_ring_coherence_plot.png")
+    print("- bit_bier_v1_1_mesh_coherence_plot.png")
+    print("- bit_bier_v1_1_hierarchical_coherence_plot.png")
+    print("- bit_bier_v1_1_summary.csv")
+    print("- bit_bier_v1_1_summary_barplot.png")
