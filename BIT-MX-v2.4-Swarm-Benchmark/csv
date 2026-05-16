@@ -1,5 +1,0 @@
-csv/
-│   ├── bit_mx_v24_seed0_naive_log.csv
-│   ├── bit_mx_v24_seed0_supervisor_log.csv
-│   ├── bit_mx_v24_summary_naive.csv
-│   └── bit_mx_v24_summary_supervisor.csv
