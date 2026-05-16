@@ -64,7 +64,8 @@ notes/     -> conceptual notes
 ```
 
 ---
-
+License: CC BY-NC 4.0
+Research Prototype Only
 ## Status
 
 Engineering Research Prototype
