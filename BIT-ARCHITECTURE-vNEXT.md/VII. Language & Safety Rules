@@ -1,0 +1,6 @@
+| Avoid                | Prefer                |
+| -------------------- | --------------------- |
+| giải mã vũ trụ       | symbolic modeling     |
+| tiên tri             | observability         |
+| chứng minh tuyệt đối | simulation hypothesis |
+| năng lượng tâm linh  | system-state dynamics |
