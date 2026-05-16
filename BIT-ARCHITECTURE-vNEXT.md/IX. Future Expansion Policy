@@ -1,0 +1,4 @@
+Không mở nhánh mới nếu:
+- chưa khóa role,
+- chưa rõ domain,
+- trùng kiến trúc cũ.
