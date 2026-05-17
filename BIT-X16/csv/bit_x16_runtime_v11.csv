@@ -1,1 +1,6 @@
-fsfsf
+experiment_run_id,contagion_rate_D,peak_overload_cluster_size,residual_field_mass,coherence_variance_score
+0,0.05,100,774.898,0.211355
+1,0.15,100,740.965,0.218604
+2,0.25,100,781.186,0.222466
+3,0.35,100,738.887,0.220959
+4,0.45,100,780.394,0.224356
