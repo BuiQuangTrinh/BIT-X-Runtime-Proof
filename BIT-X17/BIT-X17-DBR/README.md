@@ -202,6 +202,25 @@ Potential future expansion may include:
 * adaptive infrastructure control,
 * and multi-agent recovery systems.
   ## Benchmark Visualizations
+  ---
+
+# Runtime Benchmark Outputs
+
+## Trajectory Recovery Map
+
+![Trajectory Map](plots/dbr_v27_runtime_trajectory_map.png)
+
+---
+
+## State Transition Counts
+
+![State Counts](plots/dbr_v27_runtime_state_counts.png)
+
+---
+
+## Final Energy Heatmaps
+
+![Heatmaps](plots/dbr_v27_runtime_final_energy_heatmaps.png)
 
 ### Trajectory Benchmark
 
