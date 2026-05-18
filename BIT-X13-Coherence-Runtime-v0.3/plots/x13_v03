@@ -1,0 +1,12 @@
+plots/
+│   ├── x13_v03_01_grid_baseline_shock.png
+│   ├── x13_v03_02_grid_attractor_corridor.png
+│   ├── x13_v03_03_grid_thermal_runtime.png
+│   ├── x13_v03_04_small_world_local_pruning.png
+│   ├── x13_v03_05_runA_ring_local_pruning.png
+│   ├── x13_v03_06_runB_small_world_local_pruning.png
+│   ├── x13_v03_07_v14c_RING_same_seed.png
+│   ├── x13_v03_08_v14c_SMALL_WORLD_same_seed.png
+│   ├── x13_v03_v14c_topology_comparison_meanC.png
+│   ├── x13_v03_v14c_topology_comparison_meanE.png
+│   └── x13_v03_v14c_topology_comparison_minC.png
