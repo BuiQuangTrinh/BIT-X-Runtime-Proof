@@ -201,6 +201,19 @@ Potential future expansion may include:
 * human cognitive persistence modeling,
 * adaptive infrastructure control,
 * and multi-agent recovery systems.
+  ## Benchmark Visualizations
+
+### Trajectory Benchmark
+
+![Trajectory](plots/dbr_v27_trajectory_benchmark_map.png)
+
+### State Transition Counts
+
+![States](plots/dbr_v27_state_transition_counts.png)
+
+### Final Energy Heatmaps
+
+![Heatmaps](plots/dbr_v27_final_energy_heatmaps.png)
 
 ---
 
