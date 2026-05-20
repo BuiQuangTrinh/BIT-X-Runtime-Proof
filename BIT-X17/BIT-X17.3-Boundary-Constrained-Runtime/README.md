@@ -1,11 +1,3 @@
-Rất hợp lý anh. Với X17 thì cách mạnh nhất bây giờ không phải “đăng thật nhiều”, mà là tạo một “điểm neo kỹ thuật” rõ ràng trên GitHub để:
-
-* người ngoài nhìn vào hiểu X17 đang làm gì,
-* thấy có code + ảnh + narrative + benchmark direction,
-* thấy có self-correction,
-* thấy engineering orientation chứ không phải overclaim.
-
-Em đề xuất cấu trúc GitHub cho riêng nhánh này như sau:
 
 BIT-X17.3 explores a boundary-constrained runtime architecture for swarm stabilization under nonlinear disturbance conditions.
 
@@ -44,8 +36,6 @@ Entropy disturbance
 ---
 
 ## Core Runtime Operator
-
-Plain text thôi:
 
 ```text
 F_lattice =
