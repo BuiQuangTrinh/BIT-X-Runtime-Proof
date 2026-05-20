@@ -371,6 +371,11 @@ event-triggered orchestration
 may stabilize nonlinear distributed systems under disturbance.
 
 ---
+## Runtime Architecture Snapshot
+
+<p align="center">
+  <img src="images/x17_3_boundary_runtime_certificate.png" width="85%">
+</p>
 
 # BIT-X17.3
 
