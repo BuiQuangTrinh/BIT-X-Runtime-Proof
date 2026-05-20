@@ -377,6 +377,11 @@ may stabilize nonlinear distributed systems under disturbance.
   <img src="images/x17_3_boundary_runtime_certificate.png" width="85%">
 </p>
 
+## Quick Start
+
+```bash
+cd python
+python benchmark_runner.py
 # BIT-X17.3
 
 Boundary-Constrained Swarm Corridor Runtime
