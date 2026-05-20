@@ -1,18 +1,15 @@
+# bit_x17_3_runtime.py
+# BIT-X17.3 — Boundary-Constrained Swarm Corridor Runtime
+# Run directly:
+#   python bit_x17_3_runtime.py
+
+import os
+import csv
+import math
 import numpy as np
 
 
 class BitX173Runtime:
-    """
-    BIT-X17.3
-    Boundary-Constrained Swarm Corridor Runtime
-
-    Research sandbox for:
-    - boundary-triggered recovery
-    - geometric constraint restoration
-    - damping-based energy dissipation
-    - swarm corridor stabilization
-    """
-
     def __init__(
         self,
         num_agents=3,
@@ -47,15 +44,20 @@ class BitX173Runtime:
 
     def initial_state(self):
         if self.num_agents == 3:
-            pos = np.array([
-                [0.0, 0.0],
-                [self.d_target, 0.0],
-                [0.5 * self.d_target, 0.866 * self.d_target],
-            ], dtype=float)
+            pos = np.array(
+                [
+                    [0.0, 0.0],
+                    [self.d_target, 0.0],
+                    [0.5 * self.d_target, 0.866 * self.d_target],
+                ],
+                dtype=float,
+            )
         else:
             angles = np.linspace(0, 2 * np.pi, self.num_agents, endpoint=False)
             radius = self.d_target
-            pos = np.column_stack([radius * np.cos(angles), radius * np.sin(angles)])
+            pos = np.column_stack(
+                [radius * np.cos(angles), radius * np.sin(angles)]
+            ).astype(float)
 
         vel = np.tile(np.array([2.5, 0.0]), (self.num_agents, 1)).astype(float)
         return pos, vel
@@ -68,52 +70,54 @@ class BitX173Runtime:
         return pairs
 
     def compute_metrics(self, pos, vel):
-        pairs = self.pair_indices()
         distances = []
 
-        for i, j in pairs:
+        for i, j in self.pair_indices():
             distances.append(np.linalg.norm(pos[i] - pos[j]))
 
-        distances = np.array(distances)
+        distances = np.array(distances, dtype=float)
 
         # Smooth geometric deviation energy
         E = 0.5 * np.sum((distances - self.d_target) ** 2)
 
-        headings = np.array([np.arctan2(v[1], v[0]) for v in vel])
+        headings = np.array([math.atan2(v[1], v[0]) for v in vel])
         theta_group = np.mean(headings)
         K = np.mean(np.cos(headings - theta_group))
 
-        min_d = float(np.min(distances))
+        min_distance = float(np.min(distances))
 
         kinetic_energy = 0.5 * self.mass * np.sum(np.linalg.norm(vel, axis=1) ** 2)
-        potential_energy = E * self.k_lattice
+        potential_energy = self.k_lattice * E
 
         return {
-            "E": E,
-            "K": K,
-            "min_distance": min_d,
-            "kinetic_energy": kinetic_energy,
-            "potential_energy": potential_energy,
+            "E": float(E),
+            "K": float(K),
+            "min_distance": min_distance,
+            "kinetic_energy": float(kinetic_energy),
+            "potential_energy": float(potential_energy),
         }
 
-    def control_force(self, pos, vel, use_bit=True):
-        F = np.zeros_like(pos)
+    def compute_control_force(self, pos, vel, use_bit=True):
+        F_control = np.zeros_like(pos)
 
         if not use_bit:
-            # Naive controller: weak pull toward center
+            # Naive baseline: weak pull toward center
             center = np.mean(pos, axis=0)
+
             for i in range(self.num_agents):
                 direction = center - pos[i]
                 norm = np.linalg.norm(direction) + 1e-9
-                F[i] += 2.5 * direction / norm
-            return F
+                F_control[i] += 2.5 * direction / norm
+
+            return F_control, False
 
         metrics = self.compute_metrics(pos, vel)
-        trigger = (metrics["E"] > self.e_crit) or (metrics["K"] < self.k_min)
+        triggered = (metrics["E"] > self.e_crit) or (metrics["K"] < self.k_min)
 
-        # Boundary-constrained recovery activates mainly when needed
-        if not trigger:
-            return F
+        # Event-triggered recovery:
+        # If the swarm is still inside the corridor, no heavy recovery force is applied.
+        if not triggered:
+            return F_control, False
 
         for i, j in self.pair_indices():
             diff = pos[i] - pos[j]
@@ -123,26 +127,28 @@ class BitX173Runtime:
             error = d_ij - self.d_target
             v_rel = vel[i] - vel[j]
 
+            # Boundary recovery operator:
+            # F = -k * error * direction - c * projected_relative_velocity * direction
             F_lattice = (
                 -self.k_lattice * error * u_ij
                 -self.c_damping * np.dot(v_rel, u_ij) * u_ij
             )
 
-            F[i] += 0.5 * F_lattice
-            F[j] -= 0.5 * F_lattice
+            F_control[i] += 0.5 * F_lattice
+            F_control[j] -= 0.5 * F_lattice
 
             # Emergency collision guard
             if d_ij < 2.2:
                 repel = (6.0 / (d_ij ** 2)) * u_ij
-                F[i] += repel
-                F[j] -= repel
+                F_control[i] += repel
+                F_control[j] -= repel
 
         # Velocity synchronization during recovery
         v_mean = np.mean(vel, axis=0)
         for i in range(self.num_agents):
-            F[i] += 5.5 * (v_mean - vel[i])
+            F_control[i] += 5.5 * (v_mean - vel[i])
 
-        return F
+        return F_control, True
 
     def run(
         self,
@@ -154,39 +160,56 @@ class BitX173Runtime:
         return_history=False,
     ):
         rng = np.random.default_rng(seed)
+
         pos, vel = self.initial_state()
 
-        history = []
+        base_wind = np.array([-1.0, 0.7], dtype=float) * wind_intensity
+
         max_E = 0.0
         min_distance_seen = float("inf")
-        collision_ticks = 0
         outside_ticks = 0
+        collision_ticks = 0
+        trigger_ticks = 0
         total_control_effort = 0.0
 
-        base_wind = np.array([-1.0, 0.7]) * wind_intensity
+        history = []
 
-        for t in range(self.steps):
-            pos_measured = pos + rng.normal(0, self.sensor_noise_std, pos.shape)
+        for step in range(self.steps):
+            # sensor noise creates real seed variation
+            pos_measured = pos + rng.normal(0.0, self.sensor_noise_std, pos.shape)
 
             metrics = self.compute_metrics(pos_measured, vel)
 
             E = metrics["E"]
             K = metrics["K"]
-            min_d = metrics["min_distance"]
+            min_distance = metrics["min_distance"]
 
             max_E = max(max_E, E)
-            min_distance_seen = min(min_distance_seen, min_d)
+            min_distance_seen = min(min_distance_seen, min_distance)
 
-            if min_d < self.collision_distance:
-                collision_ticks += 1
+            outside = (
+                E > self.e_crit
+                or K < self.k_min
+                or min_distance < self.collision_distance
+            )
 
-            if E > self.e_crit or K < self.k_min or min_d < self.collision_distance:
+            if outside:
                 outside_ticks += 1
 
-            F_control = self.control_force(pos_measured, vel, use_bit=use_bit)
+            if min_distance < self.collision_distance:
+                collision_ticks += 1
 
-            if wind_start <= t <= wind_end:
-                wind_noise = rng.normal(0, self.wind_noise_std, 2)
+            F_control, triggered = self.compute_control_force(
+                pos_measured,
+                vel,
+                use_bit=use_bit,
+            )
+
+            if triggered:
+                trigger_ticks += 1
+
+            if wind_start <= step <= wind_end:
+                wind_noise = rng.normal(0.0, self.wind_noise_std, 2)
                 F_wind = base_wind + wind_noise
             else:
                 F_wind = np.zeros(2)
@@ -204,28 +227,33 @@ class BitX173Runtime:
                 pos[i] += vel[i] * self.dt
 
             if return_history:
-                history.append({
-                    "step": t,
-                    "E": E,
-                    "K": K,
-                    "min_distance": min_d,
-                    "kinetic_energy": metrics["kinetic_energy"],
-                    "potential_energy": metrics["potential_energy"],
-                    "control_effort": total_control_effort,
-                    "triggered": int(E > self.e_crit or K < self.k_min),
-                })
+                history.append(
+                    {
+                        "step": step,
+                        "E": E,
+                        "K": K,
+                        "min_distance": min_distance,
+                        "kinetic_energy": metrics["kinetic_energy"],
+                        "potential_energy": metrics["potential_energy"],
+                        "control_effort": total_control_effort,
+                        "triggered": int(triggered),
+                        "outside_corridor": int(outside),
+                    }
+                )
 
         corridor_occupancy = 100.0 * (self.steps - outside_ticks) / self.steps
         collision_rate = 100.0 * collision_ticks / self.steps
+        trigger_rate = 100.0 * trigger_ticks / self.steps
 
         result = {
+            "controller": "BIT-X17.3" if use_bit else "Naive",
             "seed": seed,
-            "use_bit": use_bit,
             "wind_intensity": wind_intensity,
             "max_E": max_E,
             "min_distance": min_distance_seen,
             "corridor_occupancy": corridor_occupancy,
             "collision_rate": collision_rate,
+            "trigger_rate": trigger_rate,
             "control_effort": total_control_effort,
         }
 
@@ -233,3 +261,146 @@ class BitX173Runtime:
             return result, history
 
         return result
+
+
+def ensure_dirs():
+    os.makedirs("csv", exist_ok=True)
+
+
+def save_csv(path, rows, fieldnames):
+    with open(path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def run_single_demo():
+    print("\n" + "=" * 80)
+    print("BIT-X17.3 SINGLE RUNTIME TEST")
+    print("=" * 80)
+
+    engine = BitX173Runtime()
+
+    bit_result, history = engine.run(
+        seed=42,
+        use_bit=True,
+        wind_intensity=8.5,
+        return_history=True,
+    )
+
+    naive_result = engine.run(
+        seed=42,
+        use_bit=False,
+        wind_intensity=8.5,
+        return_history=False,
+    )
+
+    print("\nBIT-X17.3 Controller Result:")
+    for k, v in bit_result.items():
+        if isinstance(v, float):
+            print(f"  {k}: {v:.4f}")
+        else:
+            print(f"  {k}: {v}")
+
+    print("\nNaive Controller Result:")
+    for k, v in naive_result.items():
+        if isinstance(v, float):
+            print(f"  {k}: {v:.4f}")
+        else:
+            print(f"  {k}: {v}")
+
+    ensure_dirs()
+
+    history_path = "csv/bit_x17_3_runtime_history_seed42.csv"
+    save_csv(
+        history_path,
+        history,
+        [
+            "step",
+            "E",
+            "K",
+            "min_distance",
+            "kinetic_energy",
+            "potential_energy",
+            "control_effort",
+            "triggered",
+            "outside_corridor",
+        ],
+    )
+
+    print(f"\nRuntime history CSV saved to: {history_path}")
+
+
+def run_benchmark():
+    print("\n" + "=" * 80)
+    print("BIT-X17.3 MULTI-SEED BENCHMARK")
+    print("=" * 80)
+
+    engine = BitX173Runtime()
+
+    wind_intensities = [5.0, 8.5, 12.0]
+    seeds = range(20)
+
+    rows = []
+
+    for wind in wind_intensities:
+        for seed in seeds:
+            rows.append(engine.run(seed=seed, use_bit=True, wind_intensity=wind))
+            rows.append(engine.run(seed=seed, use_bit=False, wind_intensity=wind))
+
+    ensure_dirs()
+
+    benchmark_path = "csv/bit_x17_3_benchmark_results.csv"
+    fieldnames = [
+        "controller",
+        "seed",
+        "wind_intensity",
+        "max_E",
+        "min_distance",
+        "corridor_occupancy",
+        "collision_rate",
+        "trigger_rate",
+        "control_effort",
+    ]
+
+    save_csv(benchmark_path, rows, fieldnames)
+
+    print(f"\nBenchmark CSV saved to: {benchmark_path}")
+
+    print("\nSummary:")
+    print("-" * 80)
+
+    for wind in wind_intensities:
+        print(f"\nWind intensity: {wind}")
+
+        for controller in ["BIT-X17.3", "Naive"]:
+            subset = [
+                r for r in rows
+                if r["wind_intensity"] == wind and r["controller"] == controller
+            ]
+
+            mean_max_E = np.mean([r["max_E"] for r in subset])
+            mean_min_distance = np.mean([r["min_distance"] for r in subset])
+            mean_corridor = np.mean([r["corridor_occupancy"] for r in subset])
+            mean_collision = np.mean([r["collision_rate"] for r in subset])
+            mean_trigger = np.mean([r["trigger_rate"] for r in subset])
+            mean_effort = np.mean([r["control_effort"] for r in subset])
+
+            print(
+                f"  {controller:10s} | "
+                f"Max_E={mean_max_E:8.3f} | "
+                f"Min_D={mean_min_distance:7.3f} | "
+                f"Corridor={mean_corridor:6.2f}% | "
+                f"Collision={mean_collision:6.2f}% | "
+                f"Trigger={mean_trigger:6.2f}% | "
+                f"Effort={mean_effort:9.2f}"
+            )
+
+    print("\nStatus: Research Sandbox Benchmark")
+    print("Note: This is a numerical prototype, not a formal mathematical proof.")
+    print("=" * 80 + "\n")
+
+
+if __name__ == "__main__":
+    run_single_demo()
+    run_benchmark()
