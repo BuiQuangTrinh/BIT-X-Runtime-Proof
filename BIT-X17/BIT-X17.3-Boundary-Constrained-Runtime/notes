@@ -1,0 +1,217 @@
+# BIT-X17.3 Runtime Notes
+
+## Boundary-Constrained Runtime Engineering Notes
+
+Author:
+Bùi Quang Trịnh
+
+Project:
+BIT-X17.3 — Boundary-Constrained Swarm Corridor Runtime
+
+Status:
+Research Sandbox Prototype
+
+---
+
+# 1. Core Engineering Direction
+
+BIT-X17.3 studies how distributed autonomous nodes maintain geometric stability under disturbance fields without relying on continuous global optimization.
+
+Instead of solving full nonlinear global control problems at every timestep, the runtime monitors a small set of boundary-state indicators and activates recovery operators only when the system approaches corridor instability.
+
+Core philosophy:
+
+Entropy disturbance
+→ geometric deviation
+→ boundary detection
+→ event-triggered recovery
+→ constrained stabilization
+→ reduced compute explosion.
+
+---
+
+# 2. Runtime Architecture
+
+The runtime is composed of four layers:
+
+1. Boundary Measurement Layer
+2. Event Trigger Layer
+3. Constraint Recovery Layer
+4. Corridor Stabilization Layer
+
+The system continuously measures:
+
+- Geometric deviation energy (E)
+- Directional coherence (K)
+
+The recovery operator activates only when:
+
+E > E_crit
+or
+K < K_min
+
+This architecture reduces unnecessary control effort during stable operating conditions.
+
+---
+
+# 3. Core Runtime Variables
+
+E:
+Geometric deformation energy.
+
+Measures deviation between actual pairwise distances and target structure distances.
+
+K:
+Directional coherence index.
+
+Measures velocity alignment consistency across the swarm.
+
+k_lattice:
+Structural stiffness coefficient.
+
+Controls restoring force strength.
+
+c_damping:
+Dissipative damping coefficient.
+
+Absorbs excessive oscillatory energy.
+
+E_crit:
+Maximum allowable corridor deformation threshold.
+
+K_min:
+Minimum acceptable directional coherence threshold.
+
+---
+
+# 4. Boundary Recovery Operator
+
+The recovery operator combines:
+
+- elastic restoring dynamics
+- dissipative damping
+- event-triggered activation
+
+Runtime force:
+
+F_lattice =
+(
+    -k_lattice * error * u_ji
+    -c_damping * dot(v_rel, u_ji) * u_ji
+)
+
+Where:
+
+error:
+distance deviation from target geometry.
+
+u_ji:
+normalized direction vector.
+
+v_rel:
+relative velocity vector.
+
+This operator acts as a local boundary-constrained stabilization mechanism.
+
+---
+
+# 5. Benchmark Objective
+
+The benchmark compares:
+
+1. Naive continuous correction controller
+2. BIT-X17.3 event-triggered constrained runtime
+
+Metrics:
+
+- max_E
+- corridor_occupancy
+- collision_rate
+- control_effort
+
+Disturbance field:
+variable wind intensity.
+
+---
+
+# 6. Observed Sandbox Behavior
+
+Within tested disturbance ranges:
+
+- BIT-X17.3 maintains near-zero geometric deviation.
+- Corridor occupancy remains near maximum.
+- Collision events are eliminated.
+- Total control effort remains lower than naive control.
+
+These observations suggest that boundary-triggered recovery may reduce unnecessary runtime stabilization cost in distributed systems.
+
+This repository does NOT claim proof of optimality, general stability theorem, or industrial-grade validation.
+
+Current status:
+engineering exploration sandbox.
+
+---
+
+# 7. Relation to P vs NP Exploration
+
+This runtime originated from conceptual exploration around:
+
+P vs NP,
+constraint verification,
+and boundary-state recovery.
+
+The central intuition is:
+
+Searching globally across full nonlinear state spaces is computationally expensive,
+while verifying local corridor validity may remain computationally lightweight.
+
+BIT-X17.3 explores this intuition through swarm runtime simulation rather than formal computational complexity proof.
+
+No claim is made regarding resolution of the P vs NP problem.
+
+---
+
+# 8. Research Position
+
+BIT-X17.3 should be interpreted as:
+
+- runtime engineering exploration
+- observability sandbox
+- distributed stabilization experiment
+- boundary-triggered control prototype
+
+It is NOT presented as:
+
+- formal proof system
+- unified physics theory
+- solved mathematical conjecture
+- industrial flight controller
+
+---
+
+# 9. Repository Philosophy
+
+The repository intentionally preserves:
+
+- version history
+- benchmark telemetry
+- correction trail
+- engineering assumptions
+- runtime limitations
+
+This project prioritizes:
+
+clarity,
+self-correction,
+bounded claims,
+and reproducible sandbox experimentation.
+
+---
+
+# 10. Current Status
+
+LOCKED
+
+Research Sandbox Stable
+
+No Further Expansion
