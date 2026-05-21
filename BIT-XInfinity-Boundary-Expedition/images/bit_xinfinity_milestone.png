@@ -1,0 +1,171 @@
+# images/ Structure
+
+```text
+images/
+├── bit_xinfinity_milestone.png
+├── operator_01_artifact.png
+└── timeline/
+```
+
+---
+
+# bit_xinfinity_milestone.png
+
+## Purpose
+
+This image acts as:
+- the primary visual identity of the BIT-X∞ repository,
+- a historical milestone artifact,
+- and a symbolic marker for the beginning of the BIT-X∞ expeditionary axis.
+
+---
+
+## Suggested Contents
+
+The image may include:
+- BIT-X∞ title
+- Boundary Expedition subtitle
+- author identity
+- adaptive runtime themes
+- blockchain-style visual framing
+- QR code linking to:
+  - GitHub repository
+  - Substack article
+  - or future archive pages
+- symbolic runtime structures
+- coherence / entropy motifs
+- expeditionary visual atmosphere
+
+---
+
+## Suggested Metadata
+
+```text
+BIT-X∞
+Boundary Expedition & Emergent Discovery Archive
+
+Author:
+Bùi Quang Trịnh
+
+Founder & Architect of Boundary Information Theory (BIT)
+
+AI Companions:
+GPT by OpenAI
+Google Gemini
+```
+
+---
+
+# operator_01_artifact.png
+
+## Purpose
+
+This image serves as:
+- the first core operator milestone artifact,
+- a symbolic archive image,
+- and the visual marker for:
+  BIT-X∞.OPERATOR-01
+
+---
+
+## Suggested Contents
+
+The image may include:
+- operator title
+- event-trigger runtime visualization
+- boundary stabilization graphics
+- lattice / vortex motifs
+- runtime corridor visualization
+- operator formula
+- trigger logic
+- timestamp milestone
+- QR code
+- blockchain-style framing
+
+---
+
+## Suggested Formula Display
+
+```text
+F_boundary = Trigger(E, K) * Integral_boundary(
+    -K_lattice * Vorticity
+    -C_damping * Strain_Tensor
+)
+```
+
+---
+
+## Suggested Trigger Logic Display
+
+```text
+Trigger(E, K) = 0
+if:
+E <= E_crit AND K >= K_min
+
+Trigger(E, K) = 1
+if:
+E > E_crit OR K < K_min
+```
+
+---
+
+# timeline/
+
+## Purpose
+
+The timeline folder stores:
+- historical development images,
+- milestone artifacts,
+- conceptual evolution snapshots,
+- and visual records of major discoveries
+inside the BIT-X∞ expeditionary process.
+
+---
+
+# Suggested Timeline Structure
+
+```text
+timeline/
+├── 2026_05_20_operator_01_birth.png
+├── 2026_05_20_bit_xinfinity_launch.png
+├── future_runtime_discovery_01.png
+└── future_operator_artifacts/
+```
+
+---
+
+# Timeline Philosophy
+
+The timeline is not intended to function as:
+- a strict academic chronology,
+- nor a formal proof archive.
+
+Instead, it acts as:
+- a living memory trail,
+- a symbolic research log,
+- and a historical reflection of the evolving BIT-X∞ journey.
+
+---
+
+# Visual Style Recommendation
+
+Recommended visual atmosphere:
+- futuristic engineering
+- runtime systems aesthetics
+- adaptive geometry
+- boundary-field structures
+- swarm topology
+- coherence vs entropy contrast
+- dark technological tone
+- blockchain-style archival framing
+
+Avoid:
+- excessive mystical symbolism
+- “ultimate theory” visuals
+- overclaim-heavy design language
+
+The visual identity should remain:
+- exploratory,
+- grounded,
+- engineering-oriented,
+- and expeditionary in spirit.
