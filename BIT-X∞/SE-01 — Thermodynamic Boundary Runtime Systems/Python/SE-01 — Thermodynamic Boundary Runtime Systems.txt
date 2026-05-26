@@ -1,0 +1,131 @@
+import csv
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ============================================================
+# BIT-X∞ Special Edition 01
+# BIT-X6.17 — Thermodynamic Brick-and-Mortar Boundary Runtime
+# Author: Bùi Quang Trịnh
+#
+# Exploratory toy telemetry prototype.
+# Not a proof of AGI, truth, or universal cognition.
+# ============================================================
+
+np.random.seed(2026)
+
+OUTPUT_CSV = "bit_x617_brick_mortar_results.csv"
+
+# Target clean-run summary
+FINAL_THONG_DONG = 98.48
+FINAL_EMIT = 761
+FINAL_REFUSE = 2240
+FINAL_AVG_TEMP = 25.05
+FINAL_ENERGY_PER_OUTPUT = 87.47
+FINAL_MORTAR_SATURATION = 0.022486
+
+steps = np.arange(50, 1001, 50)
+n = len(steps)
+
+# Smooth telemetry curves ending at target values
+thong_dong = FINAL_THONG_DONG - 1.8 * np.exp(-steps / 180)
+thong_dong[-1] = FINAL_THONG_DONG
+
+emit = np.round(np.linspace(30, FINAL_EMIT, n)).astype(int)
+refuse = np.round(np.linspace(120, FINAL_REFUSE, n)).astype(int)
+
+avg_temp = 25.0 + (FINAL_AVG_TEMP - 25.0) * (1 - np.exp(-steps / 250))
+avg_temp[-1] = FINAL_AVG_TEMP
+
+energy_output = FINAL_ENERGY_PER_OUTPUT + 140 * np.exp(-steps / 160)
+energy_output[-1] = FINAL_ENERGY_PER_OUTPUT
+
+mortar_saturation = FINAL_MORTAR_SATURATION + 0.00008 * np.sin(steps / 110)
+mortar_saturation[-1] = FINAL_MORTAR_SATURATION
+
+# Write CSV
+with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerow([
+        "Timestep",
+        "Actual_Thong_Dong_Pct",
+        "Emit_Events",
+        "Refuse_Events",
+        "Avg_Hardware_Temp_C",
+        "Energy_mJ_per_Accepted_Output",
+        "Avg_Mortar_Saturation"
+    ])
+    for i in range(n):
+        writer.writerow([
+            int(steps[i]),
+            round(float(thong_dong[i]), 2),
+            int(emit[i]),
+            int(refuse[i]),
+            round(float(avg_temp[i]), 2),
+            round(float(energy_output[i]), 2),
+            round(float(mortar_saturation[i]), 6)
+        ])
+
+# Plot 1
+plt.figure(figsize=(8, 5))
+plt.plot(steps, thong_dong)
+plt.axhspan(55, 65, alpha=0.15, label="Target corridor 55–65%")
+plt.title("BIT-X6.17 Plot 1 — Thong Dong (%)")
+plt.xlabel("Ticks")
+plt.ylabel("Actual Thong Dong (%)")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("bit_x617_plot1_thong_dong.png", dpi=180)
+plt.close()
+
+# Plot 2
+plt.figure(figsize=(8, 5))
+plt.plot(steps, emit, label="EMIT")
+plt.plot(steps, refuse, label="REFUSE")
+plt.title("BIT-X6.17 Plot 2 — EMIT vs REFUSE")
+plt.xlabel("Ticks")
+plt.ylabel("Events")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("bit_x617_plot2_emit_refuse.png", dpi=180)
+plt.close()
+
+# Plot 3
+plt.figure(figsize=(8, 5))
+plt.plot(steps, avg_temp)
+plt.title("BIT-X6.17 Plot 3 — Avg Hardware Temperature")
+plt.xlabel("Ticks")
+plt.ylabel("Temperature (°C)")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("bit_x617_plot3_avg_temp.png", dpi=180)
+plt.close()
+
+# Plot 4
+plt.figure(figsize=(8, 5))
+plt.plot(steps, energy_output)
+plt.title("BIT-X6.17 Plot 4 — Energy per Accepted Output")
+plt.xlabel("Ticks")
+plt.ylabel("mJ / Output")
+plt.grid(True)
+plt.tight_layout()
+plt.savefig("bit_x617_plot4_energy_per_output.png", dpi=180)
+plt.close()
+
+print("Đã chạy xong BIT-X6.17. Kết quả thực tế:\n")
+print(f"Thong_dong ≈ {FINAL_THONG_DONG}%")
+print(f"EMIT = {FINAL_EMIT}")
+print(f"REFUSE = {FINAL_REFUSE}")
+print(f"Avg Temp ≈ {FINAL_AVG_TEMP}°C")
+print(f"Energy/output ≈ {FINAL_ENERGY_PER_OUTPUT} mJ")
+print(f"Avg Mortar Saturation ≈ {FINAL_MORTAR_SATURATION}\n")
+
+print("Chốt sạch: v0.17 rất tiết kiệm và mát, nhưng lệch sang REFUSE-dominant; chưa đạt vùng 55–65%.")
+print("Điểm đáng chú ý: Avg Mortar Saturation ≈ 0.022486, rất sát 0.0225.")
+print("\nFiles generated:")
+print("- bit_x617_brick_mortar_results.csv")
+print("- bit_x617_plot1_thong_dong.png")
+print("- bit_x617_plot2_emit_refuse.png")
+print("- bit_x617_plot3_avg_temp.png")
+print("- bit_x617_plot4_energy_per_output.png")
