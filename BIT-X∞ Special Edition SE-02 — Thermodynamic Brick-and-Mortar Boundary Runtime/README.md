@@ -1,6 +1,6 @@
-# BIT-X∞ Special Edition SE 02
+# BIT-X∞ Special Edition SE 01
 
-# BIT-X6.17 — Thermodynamic Brick-and-Mortar Boundary Runtime (BIT-X∞ Special Edition SE 02)
+# BIT-X6.17 — Thermodynamic Brick-and-Mortar Boundary Runtime (BIT-X∞ Special Edition SE 01)
 
 **Author:** Bùi Quang Trịnh
 **Framework:** BIT — Boundary Intelligence Theory
